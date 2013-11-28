@@ -1,0 +1,76 @@
+init(X,Y,MX,MY,A,PC1,PC2,PC3) := X=2, Y=2, MX=0, MY=0, A=0, PC1=0, PC2=0, PC3=0.
+
+% Thread 1 - Movements
+step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY, Ap=A
+; PC=1, PCp=2, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=X
+; PC=2, PCp=3, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A
+; PC=3, PCp=4, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=4, PCp=5, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A
+; PC=5, PCp=6, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=A+1
+; PC=6, PCp=7, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A
+; PC=7, PCp=8, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=8, PCp=9, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A
+; PC=9, PCp=10, Xp=X+X+A, Yp=Y, MXp=MX, MYp=MY, Ap=A
+; PC=10, PCp=11, Xp=X, Yp=Y, MXp=0, MYp=MY, Ap=A.
+
+% Thread 2 = Movements
+step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=0, PCp=1, Xp=X+2, Yp=Y, MXp=MX, MYp=MY.
+
+% Thread 3 = Movements
+step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1
+; PC=1, PCp=2, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=2, PCp=3, Xp=X, Yp=Y, MXp=MX, MYp=0.
+
+r1(X,Y,MX,MY,A,PC1) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r1(Xp,Yp,MXp,MYp,Ap,PC1p) :- r1(X,Y,MX,MY,A,PC1)
+                            ,step1(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p).
+
+r2(X,Y,MX,MY,PC2) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r2(Xp,Yp,MXp,MYp,PC2p) :- r2(X,Y,MX,MY,PC2)
+                         ,step2(X,Y,MX,MY,PC2,Xp,Yp,MXp,MYp,PC2p).
+
+r3(X,Y,MX,MY,PC3) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r3(Xp,Yp,MXp,MYp,PC3p) :- r3(X,Y,MX,MY,PC3)
+                         ,step3(X,Y,MX,MY,PC3,Xp,Yp,MXp,MYp,PC3p).
+
+query_naming(r1(x,y,mx,my,a,pc1)).
+query_naming(r2(x,y,mx,my,pc2)).
+query_naming(r3(x,y,mx,my,pc3)).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(r1, [X,Y,MX,MY,A,PC],
+     [MX=<0, MX>=1, MY=<0, MY>=1,
+      PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11]).
+preds(r2, [X,Y,MX,MY,PC],
+     [MX=<0, MX>=1, MY=<0, MY>=1,
+      PC=0,PC=1,PC=2,PC=3]).
+preds(r3, [X,Y,MX,MY,PC],
+     [MX=<0, MX>=1, MY=<0, MY>=1,
+      PC=0,PC=1,PC=2,PC=3]).
+
+% 'qarmc -nopreprocess': 0.147s
+%% r1: 
+%% pc1=11,my=<0,mx=<0;
+%% pc1=10,my=<0,mx>=1;
+%% pc1=9,my=<0,mx>=1;
+%% pc1=8,my>=1,mx>=1;
+%% pc1=7,my>=1,mx>=1;
+%% pc1=6,my=<0,mx>=1;
+%% pc1=5,my=<0,mx>=1;
+%% pc1=4,my>=1,mx>=1;
+%% pc1=3,my>=1,mx>=1;
+%% pc1=2,my=<0,mx>=1;
+%% pc1=1,my=<0,mx>=1;
+%% pc1=0,my=<0,mx=<0
+%% r2: 
+%% pc2=1,my=<0,mx=<0;
+%% pc2=0,my=<0,mx=<0
+%% r3: 
+%% pc3=3,my=<0,mx=<0;
+%% pc3=2,my>=1,mx=<0;
+%% pc3=1,my>=1,mx=<0;
+%% pc3=0,my=<0,mx=<0

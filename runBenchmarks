@@ -1,0 +1,166 @@
+#!/bin/sh
+# runs all benchmarks
+timeout=90m
+qarmc=../bin/qarmc-old
+impara=../bin/impara
+threaderdir=../bin
+threader=cream
+sizes="1 5 10 50"
+benchmarks="p1 p2 p3 p4"
+out=logs
+result="result"
+useTrans=1
+useMHP=1
+useThreader=1
+useImpara=1
+useOG=1
+
+printME()
+{
+echo $@
+echo $@ >> ../$result
+}
+
+printTIMEOUT()
+{
+if [ ${#1 -le 7}  ]; then
+printME "$1 \t\tTIMEOUT! \t------"
+else
+printME "$1 \tTIMEOUT! \t------"
+fi
+}
+
+execute()
+{
+prog=${2}"\t"
+if [ ${#2} -le 7 ]; then
+prog=${prog}"\t"; fi
+T=$(date +%s%N)
+if [ $1 -eq 1  ]; then
+	$qarmc -nopreprocess -debug ${2}.qarmc > ${out}/${2}.log 
+	okstring="Q'ARMC: program is correct"
+elif [ $1 -eq 2  ]; then
+	timeout $timeout $qarmc -exp-eval ${2}.qarmc > ${out}/${2}.log
+	if [ $? -eq 124  ]; then
+	printTIMEOUT "$2"
+	return; fi
+	okstring="Q'ARMC: program is correct"
+elif [ $1 -eq 3 ]; then
+	timeout --kill-after=$timeout $timeout $impara  ${2}.c > ${out}/${2}.log
+	if [ $? -eq 124  ]; then
+	printTIMEOUT "$2"
+	return; fi
+	okstring="VERIFICATION SUCCESSFUL"
+elif [ $1 -eq 4 ]; then
+	crtdir=$PWD
+	cd $threaderdir
+	timeout $timeout ./$threader --no-main  --algorithm:owicki-gries ${crtdir}/${2}.c > ${crtdir}/${out}/${2}.log
+	if [ $? -eq 124  ]; then
+	cd $crtdir
+	printTIMEOUT "${2}OG"
+	return; fi
+	cd $crtdir
+	prog=${2}"OG"
+	okstring="Program is correct."
+elif [ $1 -eq 5 ]; then
+	crtdir=$PWD
+	cd $threaderdir
+	timeout $timeout ./$threader --no-main --algorithm:rely-guarantee  ${crtdir}/${2}.c > ${crtdir}/${out}/${2}.log
+	if [ $? -eq 124  ]; then
+	cd $crtdir
+	printTIMEOUT "${2}RG"
+	return; fi
+	cd $crtdir
+	prog=${2}"RG"
+	okstring="Program is correct."
+fi
+T="$(($(date +%s%N)-T))"
+M="$((T/1000000))"
+time=$((T/1000000000))"."$((T%1000000000))"s"
+
+grep -q "$okstring" ${out}/${2}.log
+if [ $? -eq 0 ]; then
+status="correct"
+else
+status="not correct"
+fi
+
+res="$prog \t$time \t$status"
+printME $res
+return
+}
+
+runBenchmark()
+{
+	dir=$1
+	cd $dir
+	if [ ! -e $out ]; then
+	mkdir $out; fi
+	echo "----Running benchmarks of directory " $dir"----"
+
+	for size in `echo $sizes`
+	do
+		if [ $size -eq 1 ] && [ $dir != "p1" ]; then
+		continue; fi		
+		printME "-------------------- ${dir}_${size} ----------------------"
+		printME "Program \t\tTime \t\tStatus"
+		if [ $useTrans -eq 1 ]; then
+		execute 1 ${dir}_${size}_lh
+		execute 1 ${dir}_${size}_mover
+		execute 1 ${dir}_${size}_phase
+		execute 1 ${dir}_${size}_trans
+		execute 2 ${dir}_${size}_mc; fi
+		if [ $useMHP -eq 1 ]; then
+		execute 2 ${dir}_${size}_mhp; fi
+		if [ $useOG -eq 1 ]; then
+		execute 2 ${dir}_${size}_og; fi
+		if [ $useImpara -eq 1 ]; then
+		execute 3 ${dir}_${size}_impara; fi
+		if [ $useThreader -eq 1 ]; then
+		execute 4 ${dir}_${size}_threader
+		execute 5 ${dir}_${size}_threader; fi
+		echo "\n"
+	done
+	cd ..
+	return
+}
+
+dumpHelp()
+{
+	echo "******************************RunBenchmarks*******************************"
+	echo "runBenchmarks [ option params* ]*"
+	echo "Option List:"
+	echo "-no-trans	: Use no transactional reasoning"
+	echo "-no-mhp		: Use no mhp-based reasoning"
+	echo "-no-threader	: Use no threader for benchmarks"
+	echo "-no-og		: Use no Owicki-Gries rule for benchmarks"
+	echo "-no-impara	: Use no impara for benchmarks"
+	echo "-timeout=x(s|m)	: set timeout interval to x (seconds|minutes) (default:90m)"
+	echo "-help		: Display this list of options"
+	exit 0
+}
+
+# clear result file
+rm -f result
+
+#check input arguments
+
+for arg in $@
+do
+	case $arg in
+		"-no-trans") useTrans=0 ;;
+		"-no-mhp") useMHP=0 ;;
+		"-no-threader") useThreader=0 ;;
+		"-no-og") useOG=0 ;;
+		"-no-impara") useImpara=0 ;;
+		"-timeout="*) timeout=$(echo $arg | cut -c10-) ;;
+		"-help") dumpHelp ;;
+		*) dumpHelp ;;
+	esac
+done
+
+#run benchmarks
+for bench in `echo $benchmarks`
+do
+	runBenchmark $bench
+done

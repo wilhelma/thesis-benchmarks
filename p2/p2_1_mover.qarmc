@@ -1,0 +1,334 @@
+init(X,Y,MX,MY,A,PC1,PC2,PC3) := X=2, Y=2, MX=0, MY=0, A=0, PC1=0, PC2=0, PC3=0.
+
+% === Thread 1 ===
+step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp,XW,YW,XR,YR) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY, Ap=A, XW=0, YW=0, XR=0, YR=0
+; PC=1, PCp=2, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=X, XW=0, YW=0, XR=1, YR=0
+; PC=2, PCp=3, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A, XW=0, YW=0, XR=0, YR=0
+; PC=3, PCp=4, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, XW=0, YW=1, XR=0, YR=1
+; PC=4, PCp=5, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A, XW=0, YW=0, XR=0, YR=0
+; PC=5, PCp=6, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=A+1, XW=0, YW=0, XR=0, YR=0 
+; PC=6, PCp=7, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A, XW=0, YW=0, XR=0, YR=0
+; PC=7, PCp=8, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, XW=0, YW=1, XR=0, YR=1
+; PC=8, PCp=9, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A, XW=0, YW=0, XR=0, YR=0
+; PC=9, PCp=10, Xp=X+X+A, Yp=Y, MXp=MX, MYp=MY, Ap=A, XW=1, YW=0, XR=1, YR=0
+; PC=10, PCp=11, Xp=X, Yp=Y, MXp=0, MYp=MY, Ap=A, XW=0, YW=0, XR=0, YR=0.
+
+acq1(L,PC,PCp) := 
+  L=1, PC=0, PCp=1
+; L=2, PC=2, PCp=3
+; L=2, PC=6, PCp=7.
+
+rel1(L,PC,PCp) := 
+  L=2, PC=4, PCp=5
+; L=2, PC=8, PCp=9
+; L=1, PC=10, PCp=11.
+
+lh1(PC,MX,MY) := 
+	PC=11, MX=0, MY=0
+; PC=10, MX=1, MY=0
+; PC=9, MX=1, MY=0
+; PC=8, MX=1, MY=1
+; PC=7, MX=1, MY=1
+; PC=6, MX=1, MY=0
+; PC=5, MX=1, MY=0
+; PC=4, MX=1, MY=1
+; PC=3, MX=1, MY=1
+; PC=2, MX=1, MY=0
+; PC=1, MX=1, MY=0
+; PC=0, MX=0, MY=0.
+
+% === Thread 2 ===
+step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR) :=
+  PC=1, PCp=2, Xp=X+2, Yp=Y, MXp=MX, MYp=MY, XW=1, YW=0, XR=1, YR=0.
+
+lh2(PC,MX,MY) := 
+  PC=1, MX=0, MY=0
+; PC=0, MX=0, MY=0.
+
+% Thread 3 = Movements
+step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR) := 
+  PC=0, PCp=1, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, XW=0, YW=0, XR=0, YR=0
+; PC=1, PCp=2, Xp=X, Yp=Y+2, MXp=MX, MYp=MY, XW=0, YW=1, XR=0, YR=1
+; PC=2, PCp=3, Xp=X, Yp=Y, MXp=MX, MYp=0, XW=0, YW=0, XR=0, YR=0.
+
+acq3(L,PC,PCp) := 
+  L=2, PC=0, PCp=1.
+
+rel3(L,PC,PCp) := 
+  L=2, PC=2, PCp=3.
+
+lh3(PC,MX,MY) := 
+	PC=3, MX=0, MY=0
+; PC=2, MX=0, MY=1
+; PC=1, MX=0, MY=1
+; PC=0, MX=0, MY=0.
+
+% (Rmover)
+rm1(PC,PCp) :- acq1(L,PC,PCp).
+rm2(PC,PCp) :- acq2(L,PC,PCp).
+rm3(PC,PCp) :- acq3(L,PC,PCp).
+
+% (Lmover)
+lm1(PC,PCp) :- rel1(L,PC,PCp).
+lm2(PC,PCp) :- rel2(L,PC,PCp).
+lm3(PC,PCp) :- rel3(L,PC,PCp).
+
+% (Nmover)
+s1_0_0(PC,PCp,XW,YW,XR,YR) :- 
+    step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1),lh1(PC,MXH,MYH), MXH=<0, MYH=<0.
+s1_1_0(PC,PCp,XW,YW,XR,YR) :- 
+    step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1),lh1(PC,MXH,MYH), MXH>=1, MYH=<0.
+s1_0_1(PC,PCp,XW,YW,XR,YR) :- 
+    step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh1(PC,MXH,MYH), MXH=<0, MYH>=1.
+s1_1_1(PC,PCp,XW,YW,XR,YR) :- 
+    step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh1(PC,MXH,MYH), MXH>=1, MYH>=1.
+
+s2_0_0(PC,PCp,XW,YW,XR,YR) :- 
+    step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh2(PC,MXH,MYH), MXH=<0, MYH=<0.
+s2_1_0(PC,PCp,XW,YW,XR,YR) :- 
+    step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh2(PC,MXH,MYH), MXH>=1, MYH=<0.
+s2_0_1(PC,PCp,XW,YW,XR,YR) :- 
+    step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh2(PC,MXH,MYH), MXH=<0, MYH>=1.
+s2_1_1(PC,PCp,XW,YW,XR,YR) :- 
+    step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh2(PC,MXH,MYH), MXH>=1, MYH>=1.
+
+s3_0_0(PC,PCp,XW,YW,XR,YR) :- 
+    step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh3(PC,MXH,MYH), MXH=<0, MYH=<0.
+s3_1_0(PC,PCp,XW,YW,XR,YR) :- 
+    step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh3(PC,MXH,MYH), MXH>=1, MYH=<0.
+s3_0_1(PC,PCp,XW,YW,XR,YR) :- 
+    step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh3(PC,MXH,MYH), MXH=<0, MYH>=1.
+s3_1_1(PC,PCp,XW,YW,XR,YR) :- 
+    step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp,XW,YW,XR,YR)
+    ,(XW>=1;XR>=1;YW>=1;YR>=1), lh3(PC,MXH,MYH), MXH>=1, MYH>=1.
+
+nm1(PC,PCp) :-
+    ( (s1_0_0(PC,PCp,XW,YW,XR,YR), (s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_1_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_1_1(_,_,XWj,YWj,XRj,YRj)))
+     ;(s1_1_0(PC,PCp,XW,YW,XR,YR), (s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_1(_,_,XWj,YWj,XRj,YRj)))
+     ;(s1_0_1(PC,PCp,XW,YW,XR,YR), (s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_1_0(_,_,XWj,YWj,XRj,YRj)))
+     ;(s1_1_1(PC,PCp,XW,YW,XR,YR), (s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)))
+    ), (XW>=1,XWj>=1;YW>=1,YWj>=1
+       ;XW>=1,XRj>=1;YW>=1,YRj>=1
+       ;XR>=1,XWj>=1;YR>=1,YWj>=1).
+
+nm2(PC,PCp) :-
+    ( (s2_0_0(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_1_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_1_1(_,_,XWj,YWj,XRj,YRj)))
+     ;(s2_1_0(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_1(_,_,XWj,YWj,XRj,YRj)))
+     ;(s2_0_1(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_1_0(_,_,XWj,YWj,XRj,YRj)))
+     ;(s2_1_1(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s3_0_0(_,_,XWj,YWj,XRj,YRj)))
+    ), (XW>=1,XWj>=1;YW>=1,YWj>=1
+       ;XW>=1,XRj>=1;YW>=1,YRj>=1
+       ;XR>=1,XWj>=1;YR>=1,YWj>=1).
+
+nm3(PC,PCp) :-
+    ( (s3_0_0(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_1_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_1_1(_,_,XWj,YWj,XRj,YRj)))
+     ;(s3_1_0(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_0_1(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_1(_,_,XWj,YWj,XRj,YRj)))
+     ;(s3_0_1(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s1_1_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_1_0(_,_,XWj,YWj,XRj,YRj)))
+     ;(s3_1_1(PC,PCp,XW,YW,XR,YR), (s1_0_0(_,_,XWj,YWj,XRj,YRj)
+                                   ;s2_0_0(_,_,XWj,YWj,XRj,YRj)))
+    ), (XW>=1,XWj>=1;YW>=1,YWj>=1
+       ;XW>=1,XRj>=1;YW>=1,YRj>=1
+       ;XR>=1,XWj>=1;YR>=1,YWj>=1).
+
+query_naming(rm1(pc1,pc1p)).
+query_naming(rm2(pc2,pc2p)).
+query_naming(rm3(pc3,pc3p)).
+query_naming(lm1(pc1,pc1p)).
+query_naming(lm2(pc2,pc2p)).
+query_naming(lm3(pc3,pc3p)).
+query_naming(nm1(pc1,pc1p)).
+query_naming(nm2(pc2,pc2p)).
+query_naming(nm3(pc3,pc3p)).
+
+q(_) :- rm1(_,_).
+q(_) :- rm2(_,_).
+q(_) :- rm3(_,_).
+q(_) :- lm1(_,_).
+q(_) :- lm2(_,_).
+q(_) :- lm3(_,_).
+q(_) :- nm1(_,_).
+q(_) :- nm2(_,_).
+q(_) :- nm3(_,_).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(s1_0_0, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+       PC=11,
+       PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+       PCp=10,PCp=11]).
+
+preds(s1_1_0, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+       PC=11,
+       PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+       PCp=10,PCp=11]).
+
+preds(s1_0_1, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+       PC=11,
+       PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+       PCp=10,PCp=11]).
+
+preds(s1_1_1, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+       PC=11,
+       PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+       PCp=10,PCp=11]).
+
+preds(s2_0_0, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,
+     PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s2_1_0, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s2_0_1, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s2_1_1, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s3_0_0, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s3_1_0, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s3_0_1, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(s3_1_1, [PC,PCp,XW,YW,XR,YR],
+	  [XW=<0, XW>=1, XR=<0, XR>=1, YW=<0, YW>=1, YR=<0, YR>=1,
+	   PC=0,PC=1,PC=2,PC=3,
+       PCp=0,PCp=1,PCp=2,PCp=3]).
+
+preds(rm1, [PC,PCp],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,
+      PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+      PCp=10,PCp=11]).
+preds(rm2, [PC,PCp],
+     [PC=0,PC=1,
+      PCp=0,PCp=1]).
+preds(rm3, [PC,PCp],
+     [PC=0,PC=1,PC=2,PC=3,
+      PCp=0,PCp=1,PCp=2,PCp=3]).
+preds(lm1, [PC,PCp],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,
+      PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+      PCp=10,PCp=11]).
+preds(lm2, [PC,PCp],
+     [PC=0,PC=1,
+      PCp=0,PCp=1]).
+preds(lm3, [PC,PCp],
+     [PC=0,PC=1,PC=2,PC=3,
+      PCp=0,PCp=1,PCp=2,PCp=3]).
+preds(nm1, [PC,PCp],
+      [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,
+      PCp=0,PCp=1,PCp=2,PCp=3,PCp=4,PCp=5,PCp=6,PCp=7,PCp=8,PCp=9,
+      PCp=10,PCp=11]).
+preds(nm2, [PC,PCp],
+      [PC=0,PC=1,
+      PCp=0,PCp=1]).
+preds(nm3, [PC,PCp],
+      [PC=0,PC=1,PC=2,PC=3,
+      PCp=0,PCp=1,PCp=2,PCp=3]).
+
+% AW: 'qarmc -nopreprocess': 0.262s
+%% rm1: 
+%% pc1p=1,pc1=0;
+%% pc1p=3,pc1=2;
+%% pc1p=7,pc1=6
+%% lm1: 
+%% pc1p=5,pc1=4;
+%% pc1p=9,pc1=8;
+%% pc1p=11,pc1=10
+%% nm1: 
+%% pc1p=10,pc1=9;
+%% pc1p=2,pc1=1
+
+%% rm2: 
+%% false
+%% lm2: 
+%% false
+%% nm2: 
+%% pc2=1
+
+%% rm3: 
+%% pc3p=1,pc3=0
+%% lm3: 
+%% pc3p=3,pc3=2
+%% nm3: 
+%% false

@@ -1,0 +1,88 @@
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1_out(X,MX,PC,Xp,MXp,PCp) :=
+  PC=1,  PCp=2,  Xp=X+1, MXp=MX
+; PC=2,  PCp=3,  Xp=X+1, MXp=MX
+; PC=3,  PCp=4,  Xp=X+1, MXp=MX
+; PC=4,  PCp=5,  Xp=X+1, MXp=MX
+; PC=6,  PCp=7,  Xp=X,   MXp=0.
+step1_in(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=5,  PCp=6,  Xp=X+1, MXp=MX.
+
+% ==== Thread 2 ====
+step2_out(X,MX,PC,Xp,MXp,PCp) :=
+  PC=1,  PCp=2,  Xp=X-1, MXp=MX
+; PC=2,  PCp=3,  Xp=X-1, MXp=MX
+; PC=3,  PCp=4,  Xp=X-1, MXp=MX
+; PC=4,  PCp=5,  Xp=X-1, MXp=MX
+; PC=6,  PCp=7,  Xp=X,   MXp=0.
+step2_in(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=5,  PCp=6,  Xp=X-1, MXp=MX.
+% ==== Thread 3 ====
+step3_out(X,MX,A,PC,Xp,MXp,Ap,PCp) :=
+  PC=0, PCp=1, Ap=X, Xp=X, MXp=MX.
+
+error(X,_,_,PC1,PC2,PC3) := PC1=7, PC2=7, PC3=1, X=1. % should give a proof
+%error(X,_,_,PC1,PC2,PC3) := PC1=12, PC2=12, PC3=1, X=0. % should give a counterexample
+
+% == (INIT) ==
+r(X,MX,A,PC1,PC2,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+% == (TM-Start) ==
+p1(X,MX,PC1,Xp,MXp,PC1p) :- r(X,MX,A,PC1,_,_), step1_in(X,MX,PC1,Xp,MXp,PC1p).
+p2(X,MX,PC2,Xp,MXp,PC2p) :- r(X,MX,A,_,PC2,_), step2_in(X,MX,PC2,Xp,MXp,PC2p).
+p3(X,MX,A,PC3,Xp,MXp,Ap,PC3p) :- r(X,MX,A,_,_,PC3), step3_in(X,MX,A,PC3,Xp,MXp,Ap,PC3p).
+% == (TM-Step) ==
+p1(X,MX,PC1,Xpp,MXpp,PC1pp) :- p1(X,MX,PC1,Xp,MXp,PC1p), step1_in(Xp,MXp,PC1p,Xpp,MXpp,PC1pp).
+p2(X,MX,PC2,Xpp,MXpp,PC2pp) :- p2(X,MX,PC2,Xp,MXp,PC2p), step2_in(Xp,MXp,PC2p,Xpp,MXpp,PC2pp).
+p3(X,MX,A,PC3,Xpp,MXpp,App,PC3pp) :- p3(X,MX,A,PC3,Xp,MXp,Ap,PC3p),  step3_in(Xp,MXp,Ap,PC3p,Xpp,MXpp,App,PC3pp).
+% == (TM-Sum) ==
+s1(X,MX,PC1,Xpp,MXpp,PC1pp) :- p1(X,MX,PC1,Xp,MXp,PC1p), step1_out(Xp,MXp,PC1p,Xpp,MXpp,PC1pp).
+s2(X,MX,PC2,Xpp,MXpp,PC2pp) :- p2(X,MX,PC2,Xp,MXp,PC2p), step2_out(Xp,MXp,PC2p,Xpp,MXpp,PC2pp).
+s3(X,MX,A,PC3,Xpp,MXpp,App,PC3pp) :- p3(X,MX,A,PC3,Xp,MXp,Ap,PC3p), step3_out(Xp,MXp,Ap,PC3p,Xpp,MXpp,App,PC3pp).
+% == (Step-Single) ==
+r(Xp,MXp,A, PC1p,PC2, PC3 ) :- r(X,MX,A,PC1,PC2,PC3), step1_out(X,MX,PC1,Xp,MXp,PC1p).
+r(Xp,MXp,A, PC1, PC2p,PC3 ) :- r(X,MX,A,PC1,PC2,PC3), step2_out(X,MX,PC2,Xp,MXp,PC2p).
+r(Xp,MXp,Ap,PC1, PC2, PC3p) :- r(X,MX,A,PC1,PC2,PC3), step3_out(X,MX,A,PC3,Xp,MXp,Ap,PC3p).
+% == (Step-Sum) ==
+r(Xp,MXp,A, PC1p,PC2, PC3 ) :- r(X,MX,A,PC1,PC2,PC3), s1(X,MX,PC1,Xp,MXp,PC1p).
+r(Xp,MXp,A, PC1, PC2p,PC3 ) :- r(X,MX,A,PC1,PC2,PC3), s2(X,MX,PC2,Xp,MXp,PC2p).
+r(Xp,MXp,Ap,PC1, PC2, PC3p) :- r(X,MX,A,PC1,PC2,PC3), s3(X,MX,A,PC3,Xp,MXp,Ap,PC3p).
+% == (Error) ==
+false :- r(X,_,_,PC1,PC2,PC3),  error(X,_,_,PC1,PC2,PC3).
+
+query_naming(r(x,mx,a,pc1,pc2,pc3)).
+
+preds(r, [X,MX,A,PC1,PC2,PC3],
+     [
+      MX=<0,MX>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,
+      PC2=0,PC2=1,PC2=2,PC2=3,PC2=4,PC2=5,PC2=6,PC2=7,
+      PC3=0,PC3=1
+     ]).
+
+preds(p1, [X,MX,PC1,Xp,MXp,PC1p],
+     [
+      MX=<0,MX>=1,MXp=<0,MXp>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,
+      PC1p=0,PC1p=1,PC1p=2,PC1p=3,PC1p=4,PC1p=5,PC1p=6,PC1p=7
+     ]).
+
+preds(p2, [X,MX,PC2,Xp,MXp,PC2p],
+     [
+      MX=<0,MX>=1,MXp=<0,MXp>=1,
+      PC2=0,PC2=1,PC2=2,PC2=3,PC2=4,PC2=5,PC2=6,PC2=7,
+      PC2p=0,PC2p=1,PC2p=2,PC2p=3,PC2p=4,PC2p=5,PC2p=6,PC2p=7
+     ]).
+
+preds(p3, [X,MX,A,PC3,Xp,MXp,Ap,PC3p],
+     [
+      MX=<0,MX>=1,MXp=<0,MXp>=1,
+      PC3=0,PC3=1,
+      PC3p=0,PC3p=1
+     ]).
+
+
+% (-exp-eval) program is correct in: 1.147s (5 iter.)

@@ -1,0 +1,144 @@
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p) :=
+  PC1=0,  PC1p=1,  Xp=X,   MX=0, MXp=1, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=1,  PC1p=2,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=2,  PC1p=3,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=3,  PC1p=4,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=4,  PC1p=5,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=5,  PC1p=6,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=6,  PC1p=7,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=7,  PC1p=8,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=8,  PC1p=9,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=9,  PC1p=10, Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=10, PC1p=11, Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=11,  PC1p=12,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=12,  PC1p=13,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=13,  PC1p=14,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=14,  PC1p=15,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=15,  PC1p=16,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=16,  PC1p=17,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=17,  PC1p=18,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=18,  PC1p=19,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=19,  PC1p=20,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=20,  PC1p=21,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=21,  PC1p=22,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=22,  PC1p=23,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=23,  PC1p=24,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=24,  PC1p=25,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=25,  PC1p=26,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=26,  PC1p=27,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=27,  PC1p=28,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=28,  PC1p=29,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=29,  PC1p=30,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=30,  PC1p=31,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=31,  PC1p=32,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=32,  PC1p=33,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=33,  PC1p=34,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=34,  PC1p=35,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=35,  PC1p=36,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=36,  PC1p=37,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=37,  PC1p=38,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=38,  PC1p=39,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=39,  PC1p=40,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=40,  PC1p=41,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=41,  PC1p=42,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=42,  PC1p=43,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=43,  PC1p=44,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=44,  PC1p=45,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=45,  PC1p=46,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=46,  PC1p=47,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=47,  PC1p=48,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=48,  PC1p=49,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=49,  PC1p=50,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=50,  PC1p=51,  Xp=X+1, MXp=MX, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=51, PC1p=52, Xp=X,   MXp=0, Ap=A, PC2p=PC2, PC3p=PC3.
+
+% ==== Thread 2 ====
+step2(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p) :=
+  PC2=0,  PC2p=1,  Xp=X,   MX=0, MXp=1, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=1,  PC2p=2,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=2,  PC2p=3,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=3,  PC2p=4,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=4,  PC2p=5,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=5,  PC2p=6,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=6,  PC2p=7,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=7,  PC2p=8,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=8,  PC2p=9,  Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=9,  PC2p=10, Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=10, PC2p=11, Xp=X-1, MXp=MX, Ap=A, PC1p=PC1, PC3p=PC3
+; PC2=11,  PC2p=12,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=12,  PC2p=13,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=13,  PC2p=14,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=14,  PC2p=15,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=15,  PC2p=16,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=16,  PC2p=17,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=17,  PC2p=18,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=18,  PC2p=19,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=19,  PC2p=20,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=20,  PC2p=21,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=21,  PC2p=22,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=22,  PC2p=23,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=23,  PC2p=24,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=24,  PC2p=25,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=25,  PC2p=26,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=26,  PC2p=27,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=27,  PC2p=28,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=28,  PC2p=29,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=29,  PC2p=30,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=30,  PC2p=31,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=31,  PC2p=32,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=32,  PC2p=33,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=33,  PC2p=34,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=34,  PC2p=35,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=35,  PC2p=36,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=36,  PC2p=37,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=37,  PC2p=38,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=38,  PC2p=39,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=39,  PC2p=40,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=40,  PC2p=41,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=41,  PC2p=42,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=42,  PC2p=43,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=43,  PC2p=44,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=44,  PC2p=45,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=45,  PC2p=46,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=46,  PC2p=47,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=47,  PC2p=48,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=48,  PC2p=49,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=49,  PC2p=50,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=50,  PC2p=51,  Xp=X-1, MXp=MX, Ap=A, PC1p=P12, PC3p=PC3
+; PC2=11, PC2p=12, Xp=X,   MXp=0, Ap=A, PC1p=PC1, PC3p=PC3.
+
+% ==== Thread 3 ====
+step3(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p) :=
+  PC1=0, PC1p=1, Ap=X, Xp=X, MXp=MX, PC2p=PC2, PC3p=PC3.
+
+error(X,_,_,PC1,PC2,PC3) := PC1=12, PC2=12, X=1. % should give a proof
+
+% == (INIT) ==
+r1(X,MX,A,PC1,PC2,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+r2(X,MX,A,PC1,PC2,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+r3(X,MX,A,PC1,PC2,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+
+% == (STEP) ==
+r1(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r1(X,MX,A,PC1,PC2,PC3), step1(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r2(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r2(X,MX,A,PC1,PC2,PC3), step2(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r3(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r3(X,MX,A,PC1,PC2,PC3), step3(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+
+% == (INTERFERENCE) ==
+r1(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r1(X,MX,A,PC1,PC2,PC3), r2(X,MX,A,PC1,PC2,PC3), step2(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r1(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r1(X,MX,A,PC1,PC2,PC3), r3(X,MX,A,PC1,PC2,PC3), step3(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r2(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r2(X,MX,A,PC1,PC2,PC3), r1(X,MX,A,PC1,PC2,PC3), step1(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r2(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r2(X,MX,A,PC1,PC2,PC3), r3(X,MX,A,PC1,PC2,PC3), step3(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r3(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r3(X,MX,A,PC1,PC2,PC3), r1(X,MX,A,PC1,PC2,PC3), step1(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+r3(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r3(X,MX,A,PC1,PC2,PC3), r2(X,MX,A,PC1,PC2,PC3), step2(X,MX,A,PC1,PC2,PC3,Xp,MXp,Ap,PC1p,PC2p,PC3p).
+
+% == (ERROR) ==
+false :- r1(X,_,_,PC1,PC2,PC3), error(X,_,_,PC1,PC2,PC3).
+
+query_naming(r1(x,mx,a,pc1,pc2,pc3)).
+query_naming(r2(x,mx,a,pc1,pc2,pc3)).
+query_naming(r3(x,mx,a,pc1,pc2,pc3)).
+
+% -exp-eval -no-extra-insert-pred -nomcc: 'program is correct', 7m4s (7 iterations)

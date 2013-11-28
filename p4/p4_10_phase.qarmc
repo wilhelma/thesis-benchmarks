@@ -1,0 +1,173 @@
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X+1, MXp=MX
+; PC=2,  PCp=3,  Xp=X+1, MXp=MX
+; PC=3,  PCp=4,  Xp=X+1, MXp=MX
+; PC=4,  PCp=5,  Xp=X+1, MXp=MX
+; PC=5,  PCp=6,  Xp=X+1, MXp=MX
+; PC=6,  PCp=7,  Xp=X+1, MXp=MX
+; PC=7,  PCp=8,  Xp=X+1, MXp=MX
+; PC=8,  PCp=9,  Xp=X+1, MXp=MX
+; PC=9,  PCp=10, Xp=X+1, MXp=MX
+; PC=10, PCp=11, Xp=X+1, MXp=MX
+; PC=11, PCp=12, Xp=X,   MXp=0.
+
+rm1(PC,PCp) :=
+  PC=0 , PCp=1.
+lm1(PC,PCp) :=
+  PC=11, PCp=12.
+nm1(PC,PCp) :=
+  PCp=11, PC=10
+; PCp=10, PC=9
+; PCp=9,  PC=8
+; PCp=8,  PC=7
+; PCp=7,  PC=6
+; PCp=6,  PC=5
+; PCp=5,  PC=4
+; PCp=4,  PC=3
+; PCp=3,  PC=2
+; PCp=2,  PC=1.
+
+
+% ==== Thread 2 ====
+step2(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X-1, MXp=MX
+; PC=2,  PCp=3,  Xp=X-1, MXp=MX
+; PC=3,  PCp=4,  Xp=X-1, MXp=MX
+; PC=4,  PCp=5,  Xp=X-1, MXp=MX
+; PC=5,  PCp=6,  Xp=X-1, MXp=MX
+; PC=6,  PCp=7,  Xp=X-1, MXp=MX
+; PC=7,  PCp=8,  Xp=X-1, MXp=MX
+; PC=8,  PCp=9,  Xp=X-1, MXp=MX
+; PC=9,  PCp=10, Xp=X-1, MXp=MX
+; PC=10, PCp=11, Xp=X-1, MXp=MX
+; PC=11, PCp=12, Xp=X,   MXp=0.
+
+rm2(PC,PCp) :=
+  PC=0 , PCp=1.
+lm2(PC,PCp) :=
+  PC=11, PCp=12.
+nm2(PC,PCp) :=
+  PCp=11, PC=10
+; PCp=10, PC=9
+; PCp=9,  PC=8
+; PCp=8,  PC=7
+; PCp=7,  PC=6
+; PCp=6,  PC=5
+; PCp=5,  PC=4
+; PCp=4,  PC=3
+; PCp=3,  PC=2
+; PCp=2,  PC=1.
+
+
+% ==== Thread 3 ====
+step3(X,MX,A,PC,Xp,MXp,Ap,PCp) :=
+  PC=0, PCp=1, Ap=X, Xp=X, MXp=MX.
+
+nm3(PC,PCp) :=
+  PC=0, PCp=1.
+
+% (init)
+r1(X,MX,PC1,P) :- init(X,MX,A,PC1,PC2,PC3), P=1.
+r2(X,MX,PC2,P) :- init(X,MX,A,PC1,PC2,PC3), P=1.
+r3(X,MX,A,PC3,P) :- init(X,MX,A,PC1,PC2,PC3), P=1.
+
+% (RM-Step)
+r1(Xp,MXp,PCp,Pp) :- r1(X,MX,PC,P)
+                    ,step1(X,MX,PC,Xp,MXp,PCp)
+                    ,rm1(PC,PCp), Pp=1.
+r2(Xp,MXp,PCp,Pp) :- r2(X,MX,PC,P)
+                    ,step2(X,MX,PC,Xp,MXp,PCp)
+                    ,rm2(PC,PCp), Pp=1.
+r3(Xp,MXp,Ap,PCp,Pp) :- r3(X,MX,A,PC,P)
+                       ,step3(X,MX,A,PC,Xp,MXp,Ap,PCp)
+                       ,rm3(PC,PCp), Pp=1.
+
+% (BM-Step)
+r1(Xp,MXp,PCp,Pp) :- r1(X,MX,PC1,P)
+                    ,step1(X,MX,PC,Xp,MXp,PCp)
+                    ,bm1(PC,PCp), Pp=P.
+r2(Xp,MXp,PCp,Pp) :- r2(X,MX,PC,P)
+                    ,step2(X,MX,PC,Xp,MXp,PCp)
+                           ,bm2(PC,PCp), Pp=P.
+r3(Xp,MXp,Ap,PCp,Pp) :- r3(X,MX,A,PC,P)
+                       ,step3(X,MX,A,PC,Xp,MXp,Ap,PCp)
+                       ,bm3(PC,PCp), Pp=P.
+
+% (LM-Step)
+r1(Xp,MXp,PCp,Pp) :- r1(X,MX,PC1,P)
+                    ,step1(X,MX,PC,Xp,MXp,PCp)
+                    ,lm1(PC,PCp), Pp=0.
+r2(Xp,MXp,PCp,Pp) :- r2(X,MX,PC,P)
+                    ,step2(X,MX,PC,Xp,MXp,PCp)
+                    ,lm2(PC,PCp), Pp=0.
+r3(Xp,MXp,Ap,PCp,Pp) :- r3(X,MX,A,PC,P)
+                       ,step3(X,MX,A,PC,Xp,MXp,Ap,PCp)
+                       ,lm3(PC,PCp), Pp=0.
+
+% (NM-Step)
+r1(Xp,MXp,PCp,Pp) :- r1(X,MX,PC1,P)
+                    ,step1(X,MX,PC,Xp,MXp,PCp)
+                    ,nm1(PC,PCp), Pp=0.
+r2(Xp,MXp,PCp,Pp) :- r2(X,MX,PC,P)
+                    ,step2(X,MX,PC,Xp,MXp,PCp)
+                    ,nm2(PC,PCp), Pp=0.
+r3(Xp,MXp,Ap,PCp,Pp) :- r3(X,MX,A,PC,P)
+                       ,step3(X,MX,A,PC,Xp,MXp,Ap,PCp)
+                       ,nm3(PC,PCp), Pp=0.
+
+query_naming(r1(x,mx,pc,p)).
+query_naming(r2(x,mx,pc,p)).
+query_naming(r3(x,mx,a,pc,p)).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(r1, [X,MX,PC,P],
+     [P=<0, P>=1
+     ,PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(r2, [X,MX,PC,P],
+     [P=<0, P>=1
+     ,PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(r3, [X,MX,A,PC,P],
+     [P=<0, P>=1
+     ,PC=0,PC=1]).
+
+%% % AW: 'qarmc -nopreprocess': 0.15s
+%% r1: 
+%% pc=11,p=<0
+%% pc=10,p=<0
+%% pc=9,p=<0
+%% pc=8,p=<0
+%% pc=7,p=<0
+%% pc=6,p=<0
+%% pc=5,p=<0
+%% pc=4,p=<0
+%% pc=3,p=<0
+%% pc=2,p=<0
+%% pc=12,p=<0
+%% pc=1,p>=1
+%% pc=0,p>=1
+
+%% r2: 
+%% pc=12,p=<0
+%% pc=11,p=<0
+%% pc=10,p=<0
+%% pc=9,p=<0
+%% pc=8,p=<0
+%% pc=7,p=<0
+%% pc=6,p=<0
+%% pc=5,p=<0
+%% pc=4,p=<0
+%% pc=3,p=<0
+%% pc=2,p=<0
+%% pc=1,p>=1
+%% pc=0,p>=1
+
+%% r3: 
+%% pc=1,p=<0
+%% pc=0,p>=1

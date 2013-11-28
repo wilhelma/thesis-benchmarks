@@ -1,0 +1,85 @@
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1_out(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X+1, MXp=MX
+; PC=2,  PCp=3,  Xp=X+1, MXp=MX
+; PC=3,  PCp=4,  Xp=X+1, MXp=MX
+; PC=4,  PCp=5,  Xp=X+1, MXp=MX
+; PC=5,  PCp=6,  Xp=X+1, MXp=MX
+; PC=6,  PCp=7,  Xp=X+1, MXp=MX
+; PC=7,  PCp=8,  Xp=X+1, MXp=MX
+; PC=8,  PCp=9,  Xp=X+1, MXp=MX
+; PC=9,  PCp=10, Xp=X+1, MXp=MX
+; PC=10, PCp=11, Xp=X+1, MXp=MX
+; PC=11, PCp=12, Xp=X+1, MXp=MX
+; PC=12, PCp=13, Xp=X+1, MXp=MX
+; PC=13, PCp=14, Xp=X+1, MXp=MX
+; PC=14, PCp=15, Xp=X+1, MXp=MX
+; PC=15, PCp=16, Xp=X+1, MXp=MX
+; PC=16, PCp=17, Xp=X+1, MXp=MX
+; PC=17, PCp=18, Xp=X+1, MXp=MX
+; PC=18, PCp=19, Xp=X+1, MXp=MX
+; PC=19, PCp=20, Xp=X+1, MXp=MX
+; PC=20, PCp=21, Xp=X+1, MXp=MX
+; PC=21, PCp=22, Xp=X,   MXp=0.
+
+% ==== Thread 2 ====
+step2_out(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X-1, MXp=MX
+; PC=2,  PCp=3,  Xp=X-1, MXp=MX
+; PC=3,  PCp=4,  Xp=X-1, MXp=MX
+; PC=4,  PCp=5,  Xp=X-1, MXp=MX
+; PC=5,  PCp=6,  Xp=X-1, MXp=MX
+; PC=6,  PCp=7,  Xp=X-1, MXp=MX
+; PC=7,  PCp=8,  Xp=X-1, MXp=MX
+; PC=8,  PCp=9,  Xp=X-1, MXp=MX
+; PC=9,  PCp=10, Xp=X-1, MXp=MX
+; PC=10, PCp=11, Xp=X-1, MXp=MX
+; PC=11, PCp=12, Xp=X-1, MXp=MX
+; PC=12, PCp=13, Xp=X-1, MXp=MX
+; PC=13, PCp=14, Xp=X-1, MXp=MX
+; PC=14, PCp=15, Xp=X-1, MXp=MX
+; PC=15, PCp=16, Xp=X-1, MXp=MX
+; PC=16, PCp=17, Xp=X-1, MXp=MX
+; PC=17, PCp=18, Xp=X-1, MXp=MX
+; PC=18, PCp=19, Xp=X-1, MXp=MX
+; PC=19, PCp=20, Xp=X-1, MXp=MX
+; PC=20, PCp=21, Xp=X-1, MXp=MX
+; PC=21, PCp=22, Xp=X,   MXp=0.
+
+% ==== Thread 3 ====
+step3_out(X,MX,A,PC,Xp,MXp,Ap,PCp) :=
+  PC=0, PCp=1, Ap=X, Xp=X, MXp=MX.
+
+r1(X,MX,PC1) :- init(X,MX,A,PC1,PC2,PC3).
+r1(Xp,MXp,PC1p) :- r1(X,MX,PC1),step1(X,MX,PC1,Xp,MXp,PC1p).
+
+r2(X,MX,PC2) :- init(X,MX,A,PC1,PC2,PC3).
+r2(Xp,MXp,PC2p) :- r2(X,MX,PC2),step2(X,MX,PC2,Xp,MXp,PC2p).
+
+r3(X,MX,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+r3(Xp,MXp,PC3p) :- r3(X,MX,PC3),step3(X,MX,A,PC3,Xp,MXp,Ap,PC3p).
+
+query_naming(r1(x,mx,pc1)).
+query_naming(r2(x,mx,pc2)).
+query_naming(r3(x,mx,a,pc3)).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(r1, [X,MX,PC1],
+     [MX=<0, MX>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,PC1=8,PC1=9,PC1=10,
+      PC1=11,PC1=12,PC1=13,PC1=14,PC1=15,PC1=16,PC1=17,PC1=18,PC1=19,PC1=20,
+      PC1=21,PC1=22]).
+preds(r2, [X,MX,PC2],
+     [MX=<0, MX>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,PC1=8,PC1=9,PC1=10,
+      PC1=11,PC1=12,PC1=13,PC1=14,PC1=15,PC1=16,PC1=17,PC1=18,PC1=19,PC1=20,
+      PC1=21,PC1=22]).
+preds(r3, [X,MX,A,PC3],
+     [MX=<0, MX>=1, MY=<0, MY>=1,
+      PC3=0,PC3=1]).
+
+% 'qarmc -nopreprocess': 

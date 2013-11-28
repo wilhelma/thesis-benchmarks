@@ -1,0 +1,72 @@
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X+1, MXp=MX
+; PC=2,  PCp=3,  Xp=X+1, MXp=MX
+; PC=3,  PCp=4,  Xp=X+1, MXp=MX
+; PC=4,  PCp=5,  Xp=X+1, MXp=MX
+; PC=5,  PCp=6,  Xp=X+1, MXp=MX
+; PC=6,  PCp=7,  Xp=X,   MXp=0.
+
+% ==== Thread 2 ====
+step2(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X-1, MXp=MX
+; PC=2,  PCp=3,  Xp=X-1, MXp=MX
+; PC=3,  PCp=4,  Xp=X-1, MXp=MX
+; PC=4,  PCp=5,  Xp=X-1, MXp=MX
+; PC=5,  PCp=6,  Xp=X-1, MXp=MX
+; PC=6,  PCp=7,  Xp=X,   MXp=0.
+
+% ==== Thread 3 ====
+step3(X,MX,A,PC,Xp,MXp,Ap,PCp) :=
+  PC=0, PCp=1, Ap=X, Xp=X, MXp=MX.
+
+r1(X,MX,PC1) :- init(X,MX,A,PC1,PC2,PC3).
+r1(Xp,MXp,PC1p) :- r1(X,MX,PC1),step1(X,MX,PC1,Xp,MXp,PC1p).
+
+r2(X,MX,PC2) :- init(X,MX,A,PC1,PC2,PC3).
+r2(Xp,MXp,PC2p) :- r2(X,MX,PC2),step2(X,MX,PC2,Xp,MXp,PC2p).
+
+r3(X,MX,A,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+r3(Xp,MXp,Ap,PC3p) :- r3(X,MX,A,PC3),step3(X,MX,A,PC3,Xp,MXp,Ap,PC3p).
+
+query_naming(r1(x,mx,pc1)).
+query_naming(r2(x,mx,pc2)).
+query_naming(r3(x,mx,a,pc3)).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(r1, [X,MX,PC1],
+     [MX=<0, MX>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7]).
+preds(r2, [X,MX,PC2],
+     [MX=<0, MX>=1,
+      PC2=0,PC2=1,PC2=2,PC2=3,PC2=4,PC2=5,PC2=6,PC2=7]).
+preds(r3, [X,MX,A,PC3],
+     [MX=<0, MX>=1, MY=<0, MY>=1,
+      PC3=0,PC3=1]).
+
+% 'qarmc -nopreprocess': 0.098s
+%% r1: 
+%% pc1=7,mx=<0
+%% pc1=6,mx>=1
+%% pc1=5,mx>=1
+%% pc1=4,mx>=1
+%% pc1=3,mx>=1
+%% pc1=2,mx>=1
+%% pc1=1,mx>=1
+%% pc1=0,mx=<0
+%% r2: 
+%% pc2=7,mx=<0
+%% pc2=6,mx>=1
+%% pc2=5,mx>=1
+%% pc2=4,mx>=1
+%% pc2=3,mx>=1
+%% pc2=2,mx>=1
+%% pc2=1,mx>=1
+%% pc2=0,mx=<0
+%% r3: 
+%% pc3=1,mx=<0
+%% pc3=0,mx=<0

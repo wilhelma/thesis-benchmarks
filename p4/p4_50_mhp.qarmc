@@ -1,0 +1,159 @@
+mhp_1_2(PC1,PC2) :=
+  PC1=0, PC2>=0, PC2=<52
+; PC1=52, PC2>=0, PC2=<52
+; PC1>=0, PC1=<52, PC2=0
+; PC1>=0, PC1=<52, PC2=52.
+
+mhp_1_3(PC1,PC3) :=
+  PC1>=0, PC1=<52, PC3>=0, PC3=<1.
+
+mhp_2_3(PC2,PC3) :=
+  PC2>=0, PC2=<52, PC3>=0, PC3=<1.
+
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X+1, MXp=MX
+; PC=2,  PCp=3,  Xp=X+1, MXp=MX
+; PC=3,  PCp=4,  Xp=X+1, MXp=MX
+; PC=4,  PCp=5,  Xp=X+1, MXp=MX
+; PC=5,  PCp=6,  Xp=X+1, MXp=MX
+; PC=6,  PCp=7,  Xp=X+1, MXp=MX
+; PC=7,  PCp=8,  Xp=X+1, MXp=MX
+; PC=8,  PCp=9,  Xp=X+1, MXp=MX
+; PC=9,  PCp=10, Xp=X+1, MXp=MX
+; PC=10, PCp=11, Xp=X+1, MXp=MX
+; PC=11,  PCp=12,  Xp=X+1, MXp=MX
+; PC=12,  PCp=13,  Xp=X+1, MXp=MX
+; PC=13,  PCp=14,  Xp=X+1, MXp=MX
+; PC=14,  PCp=15,  Xp=X+1, MXp=MX
+; PC=15,  PCp=16,  Xp=X+1, MXp=MX
+; PC=16,  PCp=17,  Xp=X+1, MXp=MX
+; PC=17,  PCp=18,  Xp=X+1, MXp=MX
+; PC=18,  PCp=19,  Xp=X+1, MXp=MX
+; PC=19,  PCp=20,  Xp=X+1, MXp=MX
+; PC=20,  PCp=21,  Xp=X+1, MXp=MX
+; PC=21,  PCp=22,  Xp=X+1, MXp=MX
+; PC=22,  PCp=23,  Xp=X+1, MXp=MX
+; PC=23,  PCp=24,  Xp=X+1, MXp=MX
+; PC=24,  PCp=25,  Xp=X+1, MXp=MX
+; PC=25,  PCp=26,  Xp=X+1, MXp=MX
+; PC=26,  PCp=27,  Xp=X+1, MXp=MX
+; PC=27,  PCp=28,  Xp=X+1, MXp=MX
+; PC=28,  PCp=29,  Xp=X+1, MXp=MX
+; PC=29,  PCp=30,  Xp=X+1, MXp=MX
+; PC=30,  PCp=31,  Xp=X+1, MXp=MX
+; PC=31,  PCp=32,  Xp=X+1, MXp=MX
+; PC=32,  PCp=33,  Xp=X+1, MXp=MX
+; PC=33,  PCp=34,  Xp=X+1, MXp=MX
+; PC=34,  PCp=35,  Xp=X+1, MXp=MX
+; PC=35,  PCp=36,  Xp=X+1, MXp=MX
+; PC=36,  PCp=37,  Xp=X+1, MXp=MX
+; PC=37,  PCp=38,  Xp=X+1, MXp=MX
+; PC=38,  PCp=39,  Xp=X+1, MXp=MX
+; PC=39,  PCp=40,  Xp=X+1, MXp=MX
+; PC=40,  PCp=41,  Xp=X+1, MXp=MX
+; PC=41,  PCp=42,  Xp=X+1, MXp=MX
+; PC=42,  PCp=43,  Xp=X+1, MXp=MX
+; PC=43,  PCp=44,  Xp=X+1, MXp=MX
+; PC=44,  PCp=45,  Xp=X+1, MXp=MX
+; PC=45,  PCp=46,  Xp=X+1, MXp=MX
+; PC=46,  PCp=47,  Xp=X+1, MXp=MX
+; PC=47,  PCp=48,  Xp=X+1, MXp=MX
+; PC=48,  PCp=49,  Xp=X+1, MXp=MX
+; PC=49,  PCp=50,  Xp=X+1, MXp=MX
+; PC=50,  PCp=51,  Xp=X+1, MXp=MX
+; PC=51,  PCp=52,  Xp=X,   MXp=0.
+
+% ==== Thread 2 ====
+step2(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,   PCp=1,   Xp=X,   MX=0, MXp=1
+; PC=1,   PCp=2,   Xp=X-1, MXp=MX
+; PC=2,   PCp=3,   Xp=X-1, MXp=MX
+; PC=3,   PCp=4,   Xp=X-1, MXp=MX
+; PC=4,   PCp=5,   Xp=X-1, MXp=MX
+; PC=5,   PCp=6,   Xp=X-1, MXp=MX
+; PC=6,   PCp=7,   Xp=X-1, MXp=MX
+; PC=7,   PCp=8,   Xp=X-1, MXp=MX
+; PC=8,   PCp=9,   Xp=X-1, MXp=MX
+; PC=9,   PCp=10,  Xp=X-1, MXp=MX
+; PC=10,  PCp=11,  Xp=X-1, MXp=MX
+; PC=11,  PCp=12,  Xp=X-1, MXp=MX
+; PC=12,  PCp=13,  Xp=X-1, MXp=MX
+; PC=13,  PCp=14,  Xp=X-1, MXp=MX
+; PC=14,  PCp=15,  Xp=X-1, MXp=MX
+; PC=15,  PCp=16,  Xp=X-1, MXp=MX
+; PC=16,  PCp=17,  Xp=X-1, MXp=MX
+; PC=17,  PCp=18,  Xp=X-1, MXp=MX
+; PC=18,  PCp=19,  Xp=X-1, MXp=MX
+; PC=19,  PCp=20,  Xp=X-1, MXp=MX
+; PC=20,  PCp=21,  Xp=X-1, MXp=MX
+; PC=21,  PCp=22,  Xp=X-1, MXp=MX
+; PC=22,  PCp=23,  Xp=X-1, MXp=MX
+; PC=23,  PCp=24,  Xp=X-1, MXp=MX
+; PC=24,  PCp=25,  Xp=X-1, MXp=MX
+; PC=25,  PCp=26,  Xp=X-1, MXp=MX
+; PC=26,  PCp=27,  Xp=X-1, MXp=MX
+; PC=27,  PCp=28,  Xp=X-1, MXp=MX
+; PC=28,  PCp=29,  Xp=X-1, MXp=MX
+; PC=29,  PCp=30,  Xp=X-1, MXp=MX
+; PC=30,  PCp=31,  Xp=X-1, MXp=MX
+; PC=31,  PCp=32,  Xp=X-1, MXp=MX
+; PC=32,  PCp=33,  Xp=X-1, MXp=MX
+; PC=33,  PCp=34,  Xp=X-1, MXp=MX
+; PC=34,  PCp=35,  Xp=X-1, MXp=MX
+; PC=35,  PCp=36,  Xp=X-1, MXp=MX
+; PC=36,  PCp=37,  Xp=X-1, MXp=MX
+; PC=37,  PCp=38,  Xp=X-1, MXp=MX
+; PC=38,  PCp=39,  Xp=X-1, MXp=MX
+; PC=39,  PCp=40,  Xp=X-1, MXp=MX
+; PC=40,  PCp=41,  Xp=X-1, MXp=MX
+; PC=41,  PCp=42,  Xp=X-1, MXp=MX
+; PC=42,  PCp=43,  Xp=X-1, MXp=MX
+; PC=43,  PCp=44,  Xp=X-1, MXp=MX
+; PC=44,  PCp=45,  Xp=X-1, MXp=MX
+; PC=45,  PCp=46,  Xp=X-1, MXp=MX
+; PC=46,  PCp=47,  Xp=X-1, MXp=MX
+; PC=47,  PCp=48,  Xp=X-1, MXp=MX
+; PC=48,  PCp=49,  Xp=X-1, MXp=MX
+; PC=49,  PCp=50,  Xp=X-1, MXp=MX
+; PC=50,  PCp=51,  Xp=X-1, MXp=MX
+; PC=51,  PCp=52,  Xp=X,   MXp=0.
+
+% ==== Thread 3 ====
+step3(X,MX,A,PC,Xp,MXp,Ap,PCp) :=
+  PC=0, PCp=1, Ap=X, Xp=X, MXp=MX.
+
+error(X,_,_,PC1,PC2,PC3) := PC1=52, PC2=52, PC3=1, X=1. % should give a proof
+%error(X,_,_,PC1,PC2,PC3) := PC1=52, PC2=52, PC3=1, X=0. % should give a counterexample
+
+% == (INIT) ==
+r(X,MX,A,PC1,PC2,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+% == (LOCAL STEPS) ==
+r(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r(X,MX,A,PC1,PC2,PC3), step1(X,MX,PC1,Xp,MXp,PC1p), PC2p=PC2, PC3p=PC3, Ap=A, mhp_1_2(PC1,PC2), mhp_1_2(PC1p,PC2), mhp_1_3(PC1p,PC3), mhp_1_3(PC1p,PC3p).
+r(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r(X,MX,A,PC1,PC2,PC3), step2(X,MX,PC2,Xp,MXp,PC2p), PC1p=PC1, PC3p=PC3, Ap=A, mhp_1_2(PC1,PC2), mhp_1_2(PC1,PC2p), mhp_2_3(PC2p,PC3), mhp_2_3(PC2p,PC3p).
+r(Xp,MXp,Ap,PC1p,PC2p,PC3p) :- r(X,MX,A,PC1,PC2,PC3), step3(X,MX,A,PC3,Xp,MXp,Ap,PC3p), PC1p=PC1, PC2p=PC2, mhp_1_3(PC1,PC3), mhp_1_3(PC1,PC3p), mhp_2_3(PC2p,PC3), mhp_2_3(PC2p,PC3p).
+% == (Error) ==
+false :- r(X,_,_,PC1,PC2,PC3),  error(X,_,_,PC1,PC2,PC3).
+
+query_naming(r(x,mx,a,pc1,pc2,pc3)).
+
+preds(r, [X,MX,A,PC1,PC2,PC3],
+     [
+      MX=<0,MX>=1,MY=<0,MY>=1,MXp=<0,MXp>=1,MYp=<0,MYp>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,PC1=8,PC1=9,PC1=10,
+      PC1=11,PC1=12,PC1=13,PC1=14,PC1=15,PC1=16,PC1=17,PC1=18,PC1=19,PC1=20,
+      PC1=21,PC1=22,PC1=23,PC1=24,PC1=25,PC1=26,PC1=27,PC1=28,PC1=29,PC1=30,
+      PC1=31,PC1=32,PC1=33,PC1=34,PC1=35,PC1=36,PC1=37,PC1=38,PC1=39,PC1=40,
+      PC1=41,PC1=42,PC1=43,PC1=44,PC1=45,PC1=46,PC1=47,PC1=48,PC1=49,PC1=50,
+      PC1=51,PC1=52,
+      PC2=0,PC2=1,PC2=2,PC2=3,PC2=4,PC2=5,PC2=6,PC2=7,PC2=8,PC2=9,PC2=10,
+      PC2=11,PC2=12,PC2=13,PC2=14,PC2=15,PC2=16,PC2=17,PC2=18,PC2=19,PC2=20,
+      PC2=21,PC2=22,PC2=23,PC2=24,PC2=25,PC2=26,PC2=27,PC2=28,PC2=29,PC2=30,
+      PC2=31,PC2=32,PC2=33,PC2=34,PC2=35,PC2=36,PC2=37,PC2=38,PC2=39,PC2=40,
+      PC2=41,PC2=42,PC2=43,PC2=44,PC2=45,PC2=46,PC2=47,PC2=48,PC2=49,PC2=50,
+      PC2=51,PC2=52,
+      PC3=0,PC3=1
+     ]).

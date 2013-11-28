@@ -1,0 +1,799 @@
+init(X,Y,MX,MY,A,PC1,PC2,PC3) := X=2, Y=2, MX=0, MY=0, A=0, PC1=0, PC2=0, PC3=0.
+
+% == Thread 1 ==
+step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY, Ap=A
+; PC=1, PCp=2, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=X
+; PC=2, PCp=3, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A
+; PC=3, PCp=4, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=4, PCp=5, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=5, PCp=6, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=6, PCp=7, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=7, PCp=8, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=8, PCp=9, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=9, PCp=10, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=10, PCp=11, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=11, PCp=12, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=12, PCp=13, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=13, PCp=14, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=14, PCp=15, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=15, PCp=16, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=16, PCp=17, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=17, PCp=18, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=18, PCp=19, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=19, PCp=20, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=20, PCp=21, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=21, PCp=22, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=22, PCp=23, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=23, PCp=24, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=24, PCp=25, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=25, PCp=26, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=26, PCp=27, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=27, PCp=28, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=28, PCp=29, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=29, PCp=30, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=30, PCp=31, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=31, PCp=32, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=32, PCp=33, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=33, PCp=34, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=34, PCp=35, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=35, PCp=36, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=36, PCp=37, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=37, PCp=38, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=38, PCp=39, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=39, PCp=40, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=40, PCp=41, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=41, PCp=42, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=42, PCp=43, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=43, PCp=44, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=44, PCp=45, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=45, PCp=46, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=46, PCp=47, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=47, PCp=48, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=48, PCp=49, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=49, PCp=50, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=50, PCp=51, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=51, PCp=52, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=52, PCp=53, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=53, PCp=54, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A
+; PC=54, PCp=55, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=A+1
+; PC=55, PCp=56, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A
+; PC=56, PCp=57, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=57, PCp=58, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=58, PCp=59, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=59, PCp=60, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=60, PCp=61, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=61, PCp=62, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=62, PCp=63, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=63, PCp=64, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=64, PCp=65, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=65, PCp=66, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=66, PCp=67, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=67, PCp=68, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=68, PCp=69, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=69, PCp=70, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=70, PCp=71, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=71, PCp=72, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=72, PCp=73, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=73, PCp=74, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=74, PCp=75, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=75, PCp=76, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=76, PCp=77, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=77, PCp=78, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=78, PCp=79, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=79, PCp=80, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=80, PCp=81, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=81, PCp=82, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=82, PCp=83, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=83, PCp=84, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=84, PCp=85, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=85, PCp=86, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=86, PCp=87, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=87, PCp=88, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=88, PCp=89, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=89, PCp=90, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=90, PCp=91, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=91, PCp=92, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=92, PCp=93, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=93, PCp=94, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=94, PCp=95, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=95, PCp=96, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=96, PCp=97, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=97, PCp=98, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=98, PCp=99, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=99, PCp=100, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=100, PCp=101, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=101, PCp=102, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=102, PCp=103, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=103, PCp=104, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=104, PCp=105, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=105, PCp=106, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=106, PCp=107, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A
+; PC=107, PCp=108, Xp=X+X+A, Yp=Y, MXp=MX, MYp=MY, Ap=A
+; PC=108, PCp=109, Xp=X, Yp=Y, MXp=0, MYp=MY, Ap=A.
+
+rm1(PC,PCp) :=
+  PC=0, PCp=1
+; PC=2, PCp=3
+; PC=55, PCp=56.
+lm1(PC,PCp) :=
+  PC=53, PCp=54
+; PC=106, PCp=107
+; PC=108, PCp=109.
+nm1(PC,PCp) := PC=109.
+bm1(PC,PCp) :=
+  PC=1, PCp=2
+; PC=3, PCp=4
+; PC=4, PCP=5
+; PC=5, PCP=6
+; PC=6, PCP=7
+; PC=7, PCP=8
+; PC=8, PCP=9
+; PC=9, PCP=10
+; PC=10, PCp=11
+; PC=11, PCp=12
+; PC=12, PCp=13
+; PC=13, PCp=14
+; PC=14, PCp=15
+; PC=15, PCp=16
+; PC=16, PCp=17
+; PC=17, PCp=18
+; PC=18, PCp=19
+; PC=19, PCp=20
+; PC=20, PCp=21
+; PC=21, PCp=22
+; PC=22, PCp=23
+; PC=23, PCp=24
+; PC=24, PCp=25
+; PC=25, PCp=26
+; PC=26, PCp=27
+; PC=27, PCp=28
+; PC=28, PCp=29
+; PC=29, PCp=30
+; PC=30, PCp=31
+; PC=31, PCp=32
+; PC=32, PCp=33
+; PC=33, PCp=34
+; PC=34, PCp=35
+; PC=35, PCp=36
+; PC=36, PCp=37
+; PC=37, PCp=38
+; PC=38, PCp=39
+; PC=39, PCp=40
+; PC=40, PCp=41
+; PC=41, PCp=42
+; PC=42, PCp=43
+; PC=43, PCp=44
+; PC=44, PCp=45
+; PC=45, PCp=46
+; PC=46, PCp=47
+; PC=47, PCp=48
+; PC=48, PCp=49
+; PC=49, PCp=50
+; PC=50, PCp=51
+; PC=51, PCp=52
+; PC=52, PCp=53
+; PC=54, PCp=55
+; PC=56, PCp=57
+; PC=57, PCp=58
+; PC=58, PCp=59
+; PC=59, PCp=60
+; PC=60, PCp=61
+; PC=61, PCp=62
+; PC=62, PCp=63
+; PC=63, PCp=64
+; PC=64, PCp=65
+; PC=65, PCp=66
+; PC=66, PCp=67
+; PC=67, PCp=68
+; PC=68, PCp=69
+; PC=69, PCp=70
+; PC=70, PCp=71
+; PC=71, PCp=72
+; PC=72, PCp=73
+; PC=73, PCp=74
+; PC=74, PCp=75
+; PC=75, PCp=76
+; PC=76, PCp=77
+; PC=77, PCp=78
+; PC=78, PCp=79
+; PC=79, PCp=80
+; PC=80, PCp=81
+; PC=81, PCp=82
+; PC=82, PCp=83
+; PC=83, PCp=84
+; PC=84, PCp=85
+; PC=85, PCp=86
+; PC=86, PCp=87
+; PC=87, PCp=88
+; PC=88, PCp=89
+; PC=89, PCp=90
+; PC=90, PCp=91
+; PC=91, PCp=92
+; PC=92, PCp=93
+; PC=93, PCp=94
+; PC=94, PCp=95
+; PC=95, PCp=96
+; PC=96, PCp=97
+; PC=97, PCp=98
+; PC=98, PCp=99
+; PC=99, PCp=100
+; PC=100, PCp=101
+; PC=101, PCp=102
+; PC=102, PCp=103
+; PC=103, PCp=104
+; PC=104, PCp=105
+; PC=105, PCp=106
+; PC=107, PCp=108.
+ph1(PC,P) :=
+  PC=109, P=<0
+; PC=108, P=<0
+; PC=107, P=<0
+; PC=106, P>=1
+; PC=105, P>=1
+; PC=104, P>=1
+; PC=103, P>=1
+; PC=102, P>=1
+; PC=101, P>=1
+; PC=100, P>=1
+; PC=99, P>=1
+; PC=98, P>=1
+; PC=97, P>=1
+; PC=96, P>=1
+; PC=95, P>=1
+; PC=94, P>=1
+; PC=93, P>=1
+; PC=92, P>=1
+; PC=91, P>=1
+; PC=90, P>=1
+; PC=89, P>=1
+; PC=88, P>=1
+; PC=87, P>=1
+; PC=86, P>=1
+; PC=85, P>=1
+; PC=84, P>=1
+; PC=83, P>=1
+; PC=82, P>=1
+; PC=81, P>=1
+; PC=80, P>=1
+; PC=79, P>=1
+; PC=78, P>=1
+; PC=77, P>=1
+; PC=76, P>=1
+; PC=75, P>=1
+; PC=74, P>=1
+; PC=73, P>=1
+; PC=72, P>=1
+; PC=71, P>=1
+; PC=70, P>=1
+; PC=69, P>=1
+; PC=68, P>=1
+; PC=67, P>=1
+; PC=66, P>=1
+; PC=65, P>=1
+; PC=64, P>=1
+; PC=63, P>=1
+; PC=62, P>=1
+; PC=61, P>=1
+; PC=60, P>=1
+; PC=59, P>=1
+; PC=58, P>=1
+; PC=57, P>=1
+; PC=56, P>=1
+; PC=55, P=<0
+; PC=54, P=<0
+; PC=53, P>=1
+; PC=52, P>=1
+; PC=51, P>=1
+; PC=50, P>=1
+; PC=49, P>=1
+; PC=48, P>=1
+; PC=47, P>=1
+; PC=46, P>=1
+; PC=45, P>=1
+; PC=44, P>=1
+; PC=43, P>=1
+; PC=42, P>=1
+; PC=41, P>=1
+; PC=40, P>=1
+; PC=39, P>=1
+; PC=38, P>=1
+; PC=37, P>=1
+; PC=36, P>=1
+; PC=35, P>=1
+; PC=34, P>=1
+; PC=33, P>=1
+; PC=32, P>=1
+; PC=31, P>=1
+; PC=30, P>=1
+; PC=29, P>=1
+; PC=28, P>=1
+; PC=27, P>=1
+; PC=26, P>=1
+; PC=25, P>=1
+; PC=24, P>=1
+; PC=23, P>=1
+; PC=22, P>=1
+; PC=21, P>=1
+; PC=20, P>=1
+; PC=19, P>=1
+; PC=18, P>=1
+; PC=17, P>=1
+; PC=16, P>=1
+; PC=15, P>=1
+; PC=14, P>=1
+; PC=13, P>=1
+; PC=12, P>=1
+; PC=11, P>=1
+; PC=10, P>=1
+; PC=9, P>=1
+; PC=8, P>=1
+; PC=7, P>=1
+; PC=6, P>=1
+; PC=5, P>=1
+; PC=4, P>=1
+; PC=3, P>=1
+; PC=2, P>=1
+; PC=1, P>=1
+; PC=0, P>=1.
+
+% == Thread 2 ==
+step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY
+; PC=1, PCp=2, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=2, PCp=3, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=3, PCp=4, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=4, PCp=5, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=5, PCp=6, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=6, PCp=7, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=7, PCp=8, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=8, PCp=9, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=9, PCp=10, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=10, PCp=11, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=11, PCp=12, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=12, PCp=13, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=13, PCp=14, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=14, PCp=15, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=15, PCp=16, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=16, PCp=17, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=17, PCp=18, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=18, PCp=19, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=19, PCp=20, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=20, PCp=21, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=21, PCp=22, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=22, PCp=23, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=23, PCp=24, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=24, PCp=25, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=25, PCp=26, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=26, PCp=27, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=27, PCp=28, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=28, PCp=29, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=29, PCp=30, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=30, PCp=31, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=31, PCp=32, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=32, PCp=33, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=33, PCp=34, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=34, PCp=35, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=35, PCp=36, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=36, PCp=37, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=37, PCp=38, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=38, PCp=39, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=39, PCp=40, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=40, PCp=41, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=41, PCp=42, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=42, PCp=43, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=43, PCp=44, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=44, PCp=45, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=45, PCp=46, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=46, PCp=47, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=47, PCp=48, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=48, PCp=49, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=49, PCp=50, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=50, PCp=51, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=51, PCp=52, Xp=X, Yp=Y, MXp=0, MYp=MY.
+
+rm2(PC,PCp) := PC=0, PCp=1.
+lm2(PC,PCp) := PC=51, PCp=52.
+nm2(PC,_) := PC=52.
+bm2(PC,PCp) :=
+  PC=1, PCp=2
+; PC=2, PCp=3
+; PC=3, PCp=4
+; PC=4, PCP=5
+; PC=5, PCP=6
+; PC=6, PCP=7
+; PC=7, PCP=8
+; PC=8, PCP=9
+; PC=9, PCP=10
+; PC=10, PCp=11
+; PC=11, PCp=12
+; PC=12, PCp=13
+; PC=13, PCp=14
+; PC=14, PCp=15
+; PC=15, PCp=16
+; PC=16, PCp=17
+; PC=17, PCp=18
+; PC=18, PCp=19
+; PC=19, PCp=20
+; PC=20, PCp=21
+; PC=21, PCp=22
+; PC=22, PCp=23
+; PC=23, PCp=24
+; PC=24, PCp=25
+; PC=25, PCp=26
+; PC=26, PCp=27
+; PC=27, PCp=28
+; PC=28, PCp=29
+; PC=29, PCp=30
+; PC=30, PCp=31
+; PC=31, PCp=32
+; PC=32, PCp=33
+; PC=33, PCp=34
+; PC=34, PCp=35
+; PC=35, PCp=36
+; PC=36, PCp=37
+; PC=37, PCp=38
+; PC=38, PCp=39
+; PC=39, PCp=40
+; PC=40, PCp=41
+; PC=41, PCp=42
+; PC=42, PCp=43
+; PC=43, PCp=44
+; PC=44, PCp=45
+; PC=45, PCp=46
+; PC=46, PCp=47
+; PC=47, PCp=48
+; PC=48, PCp=49
+; PC=49, PCp=50
+; PC=50, PCp=51.
+ph2(PC,P) :=
+  PC=52, P=<0
+; PC=51, P>=1
+; PC=50, P>=1
+; PC=49, P>=1
+; PC=48, P>=1
+; PC=47, P>=1
+; PC=46, P>=1
+; PC=45, P>=1
+; PC=44, P>=1
+; PC=43, P>=1
+; PC=42, P>=1
+; PC=41, P>=1
+; PC=40, P>=1
+; PC=39, P>=1
+; PC=38, P>=1
+; PC=37, P>=1
+; PC=36, P>=1
+; PC=35, P>=1
+; PC=34, P>=1
+; PC=33, P>=1
+; PC=32, P>=1
+; PC=31, P>=1
+; PC=30, P>=1
+; PC=29, P>=1
+; PC=28, P>=1
+; PC=27, P>=1
+; PC=26, P>=1
+; PC=25, P>=1
+; PC=24, P>=1
+; PC=23, P>=1
+; PC=22, P>=1
+; PC=21, P>=1
+; PC=20, P>=1
+; PC=19, P>=1
+; PC=18, P>=1
+; PC=17, P>=1
+; PC=16, P>=1
+; PC=15, P>=1
+; PC=14, P>=1
+; PC=13, P>=1
+; PC=12, P>=1
+; PC=11, P>=1
+; PC=10, P>=1
+; PC=9, P>=1
+; PC=8, P>=1
+; PC=7, P>=1
+; PC=6, P>=1
+; PC=5, P>=1
+; PC=4, P>=1
+; PC=3, P>=1
+; PC=2, P>=1
+; PC=1, P>=1
+; PC=0, P>=1.
+
+% == Thread 3 ==
+step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1
+; PC=1, PCp=2, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=2, PCp=3, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=3, PCp=4, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=4, PCp=5, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=5, PCp=6, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=6, PCp=7, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=7, PCp=8, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=8, PCp=9, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=9, PCp=10, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=10, PCp=11, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=11, PCp=12, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=12, PCp=13, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=13, PCp=14, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=14, PCp=15, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=15, PCp=16, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=16, PCp=17, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=17, PCp=18, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=18, PCp=19, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=19, PCp=20, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=20, PCp=21, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=21, PCp=22, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=22, PCp=23, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=23, PCp=24, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=24, PCp=25, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=25, PCp=26, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=26, PCp=27, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=27, PCp=28, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=28, PCp=29, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=29, PCp=30, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=30, PCp=31, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=31, PCp=32, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=32, PCp=33, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=33, PCp=34, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=34, PCp=35, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=35, PCp=36, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=36, PCp=37, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=37, PCp=38, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=38, PCp=39, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=39, PCp=40, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=40, PCp=41, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=41, PCp=42, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=42, PCp=43, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=43, PCp=44, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=44, PCp=45, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=45, PCp=46, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=46, PCp=47, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=47, PCp=48, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=48, PCp=49, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=49, PCp=50, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=50, PCp=51, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=51, PCp=52, Xp=X, Yp=Y, MXp=MX, MYp=0.
+
+rm3(PC,PCp) :=
+  PC=0, PCp=1.
+lm3(PC,PCp) :=
+  PC=51, PCp=52.
+nm3(PC,_) := PC=52.
+bm3(PC,PCp) :=
+  PC=1, PCp=2
+; PC=2, PCp=3
+; PC=3, PCp=4
+; PC=4, PCP=5
+; PC=5, PCP=6
+; PC=6, PCP=7
+; PC=7, PCP=8
+; PC=8, PCP=9
+; PC=9, PCP=10
+; PC=10, PCp=11
+; PC=11, PCp=12
+; PC=12, PCp=13
+; PC=13, PCp=14
+; PC=14, PCp=15
+; PC=15, PCp=16
+; PC=16, PCp=17
+; PC=17, PCp=18
+; PC=18, PCp=19
+; PC=19, PCp=20
+; PC=20, PCp=21
+; PC=21, PCp=22
+; PC=22, PCp=23
+; PC=23, PCp=24
+; PC=24, PCp=25
+; PC=25, PCp=26
+; PC=26, PCp=27
+; PC=27, PCp=28
+; PC=28, PCp=29
+; PC=29, PCp=30
+; PC=30, PCp=31
+; PC=31, PCp=32
+; PC=32, PCp=33
+; PC=33, PCp=34
+; PC=34, PCp=35
+; PC=35, PCp=36
+; PC=36, PCp=37
+; PC=37, PCp=38
+; PC=38, PCp=39
+; PC=39, PCp=40
+; PC=40, PCp=41
+; PC=41, PCp=42
+; PC=42, PCp=43
+; PC=43, PCp=44
+; PC=44, PCp=45
+; PC=45, PCp=46
+; PC=46, PCp=47
+; PC=47, PCp=48
+; PC=48, PCp=49
+; PC=49, PCp=50
+; PC=50, PCp=51.
+ph3(PC,P) :=
+  PC=52, P=<0
+; PC=51, P>=1
+; PC=50, P>=1
+; PC=49, P>=1
+; PC=48, P>=1
+; PC=47, P>=1
+; PC=46, P>=1
+; PC=45, P>=1
+; PC=44, P>=1
+; PC=43, P>=1
+; PC=42, P>=1
+; PC=41, P>=1
+; PC=40, P>=1
+; PC=39, P>=1
+; PC=38, P>=1
+; PC=37, P>=1
+; PC=36, P>=1
+; PC=35, P>=1
+; PC=34, P>=1
+; PC=33, P>=1
+; PC=32, P>=1
+; PC=31, P>=1
+; PC=30, P>=1
+; PC=29, P>=1
+; PC=28, P>=1
+; PC=27, P>=1
+; PC=26, P>=1
+; PC=25, P>=1
+; PC=24, P>=1
+; PC=23, P>=1
+; PC=22, P>=1
+; PC=21, P>=1
+; PC=20, P>=1
+; PC=19, P>=1
+; PC=18, P>=1
+; PC=17, P>=1
+; PC=16, P>=1
+; PC=15, P>=1
+; PC=14, P>=1
+; PC=13, P>=1
+; PC=12, P>=1
+; PC=11, P>=1
+; PC=10, P>=1
+; PC=9, P>=1
+; PC=8, P>=1
+; PC=7, P>=1
+; PC=6, P>=1
+; PC=5, P>=1
+; PC=4, P>=1
+; PC=3, P>=1
+; PC=2, P>=1
+; PC=1, P>=1
+; PC=0, P>=1.
+
+% (init)
+r1(X,Y,MX,MY,A,PC1) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r2(X,Y,MX,MY,PC2) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r3(X,Y,MX,MY,PC3) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+
+% (reach)
+r1(Xp,Yp,MXp,MYp,Ap,PCp) :- r1(X,Y,MX,MY,A,PC), step1(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp).
+r2(Xp,Yp,MXp,MYp,PCp)    :- r2(X,Y,MX,MY,PC), step2(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp).
+r3(Xp,Yp,MXp,MYp,PCp)    :- r3(X,Y,MX,MY,PC), step3(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp).
+
+% (right)
+r_1(PC) :- r1(_,_,_,_,_,PC), ph1(PC,1), init(_,_,_,_,_,PC1,_,_), PC>=PC1+1.
+r_2(PC) :- r2(_,_,_,_,PC),   ph2(PC,1), init(_,_,_,_,_,_,PC2,_), PC>=PC2+1.
+r_3(PC) :- r3(_,_,_,_,PC),   ph3(PC,1), init(_,_,_,_,_,_,_,PC3), PC>=PC3+1.
+
+%% % (left)
+%% l_1(PC) :- r1(_,_,_,_,_,PC), \+ (rm1(PC,_) ; nm1(PC,_) ), ph1(PC,0)
+%%   ,init(_,_,_,_,_,PC1,_,_), PC>=PC1+1.
+
+%% l_2(PC) :- r2(X,Y,MX,MY,PC), \+ (rm2(PC,_) ; nm2(PC,_)), ph2(PC,0)
+%%   ,init(_,_,_,_,_,_,PC2,_), PC>=PC2+1.
+
+%% l_3(PC) :- r3(X,Y,MX,MY,PC), \+ (rm3(PC,_) ; nm3(PC,_)), ph3(PC,0)
+%%   ,init(_,_,_,_,_,_,_,PC3), PC>=PC3+1.
+
+% (non-mover)
+n_1(PC) :- r1(X,Y,MX,MY,A,PC), init(_,_,_,_,_,PC,_,_).
+n_1(PC) :- r1(X,Y,MX,MY,A,PC), (rm1(PC,_) ; nm1(PC,_)), ph1(PC,0).
+n_2(PC) :- r2(X,Y,MX,MY,PC), init(_,_,_,_,_,_,PC,_).
+n_2(PC) :- r2(X,Y,MX,MY,PC), (rm2(PC,_) ; nm2(PC,_)), ph2(PC,0).
+n_3(PC) :- r3(X,Y,MX,MY,PC), init(_,_,_,_,_,_,_,PC).
+n_3(PC) :- r3(X,Y,MX,MY,PC), (rm3(PC,_) ; nm3(PC,_)), ph3(PC,0).
+
+query_naming(r_1(pc)).
+query_naming(n_1(pc)).
+query_naming(r_2(pc)).
+query_naming(n_2(pc)).
+query_naming(r_3(pc)).
+query_naming(n_3(pc)).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(r1, [X,Y,MX,MY,A,PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52,PC=53,PC=54,PC=55,PC=56,PC=57,PC=58,PC=59,PC=60,
+      PC=61,PC=62,PC=63,PC=64,PC=65,PC=66,PC=67,PC=68,PC=69,PC=70,
+      PC=71,PC=72,PC=73,PC=74,PC=75,PC=76,PC=77,PC=78,PC=79,PC=80,
+      PC=81,PC=82,PC=83,PC=84,PC=85,PC=86,PC=87,PC=88,PC=89,PC=90,
+      PC=91,PC=92,PC=93,PC=94,PC=95,PC=96,PC=97,PC=98,PC=99,PC=100,
+      PC=101,PC=102,PC=103,PC=104,PC=105,PC=106,PC=107,PC=108,PC=109]).
+preds(r_1, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52,PC=53,PC=54,PC=55,PC=56,PC=57,PC=58,PC=59,PC=60,
+      PC=61,PC=62,PC=63,PC=64,PC=65,PC=66,PC=67,PC=68,PC=69,PC=70,
+      PC=71,PC=72,PC=73,PC=74,PC=75,PC=76,PC=77,PC=78,PC=79,PC=80,
+      PC=81,PC=82,PC=83,PC=84,PC=85,PC=86,PC=87,PC=88,PC=89,PC=90,
+      PC=91,PC=92,PC=93,PC=94,PC=95,PC=96,PC=97,PC=98,PC=99,PC=100,
+      PC=101,PC=102,PC=103,PC=104,PC=105,PC=106,PC=107,PC=108,PC=109]).
+preds(n_1, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52,PC=53,PC=54,PC=55,PC=56,PC=57,PC=58,PC=59,PC=60,
+      PC=61,PC=62,PC=63,PC=64,PC=65,PC=66,PC=67,PC=68,PC=69,PC=70,
+      PC=71,PC=72,PC=73,PC=74,PC=75,PC=76,PC=77,PC=78,PC=79,PC=80,
+      PC=81,PC=82,PC=83,PC=84,PC=85,PC=86,PC=87,PC=88,PC=89,PC=90,
+      PC=91,PC=92,PC=93,PC=94,PC=95,PC=96,PC=97,PC=98,PC=99,PC=100,
+      PC=101,PC=102,PC=103,PC=104,PC=105,PC=106,PC=107,PC=108,PC=109]).
+
+preds(r2, [X,Y,MX,MY,PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52]).
+preds(r_2, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52]).
+preds(n_2, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52]).
+
+preds(r3, [X,Y,MX,MY,PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52]).
+preds(r_3, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52]).
+preds(n_3, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12,PC=13,PC=14,PC=15,PC=16,PC=17,PC=18,PC=19,PC=20,
+      PC=21,PC=22,PC=23,PC=24,PC=25,PC=26,PC=27,PC=28,PC=29,PC=30,
+      PC=31,PC=32,PC=33,PC=34,PC=35,PC=36,PC=37,PC=38,PC=39,PC=40,
+      PC=41,PC=42,PC=43,PC=44,PC=45,PC=46,PC=47,PC=48,PC=49,PC=50,
+      PC=51,PC=52]).
+
+% Clauses to print r_1, l_1, n_1
+q(_) :- r_1(_).
+q(_) :- n_1(_).
+q(_) :- r_2(_).
+q(_) :- n_2(_).
+q(_) :- r_3(_).
+q(_) :- n_3(_).
+

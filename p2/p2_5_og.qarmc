@@ -1,0 +1,71 @@
+init(X,Y,MX,MY,A,PC1,PC2,PC3) := X=2, Y=2, MX=0, MY=0, A=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1(X,Y,MX,MY,A,PC,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PCp,PC2p,PC3p) :=
+  PC1=0, PC1p=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=1, PC1p=2, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=X, PC2p=PC2, PC3p=PC3
+; PC1=2, PC1p=3, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=3, PC1p=4, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=4, PC1p=5, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=5, PC1p=6, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=6, PC1p=7, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=7, PC1p=8, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=8, PC1p=9, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=9, PC1p=10, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=A+1, PC2p=PC2, PC3p=PC3
+; PC1=10, PC1p=11, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=11, PC1p=12, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=12, PC1p=13, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=13, PC1p=14, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=14, PC1p=15, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=15, PC1p=16, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=16, PC1p=17, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=17, PC1p=18, Xp=X+X+A, Yp=Y, MXp=MX, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3
+; PC1=18, PC1p=19, Xp=X, Yp=Y, MXp=0, MYp=MY, Ap=A, PC2p=PC2, PC3p=PC3.
+
+% ==== Thread 2 ====
+step2(X,Y,MX,MY,A,PC1,PC,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PCp,PC3p) :=
+  P2C=0, PC2p=1, Xp=X+2, Yp=Y, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC3p=PC3
+; P2C=1, PC2p=2, Xp=X+2, Yp=Y, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC3p=PC3
+; P2C=2, PC2p=3, Xp=X+2, Yp=Y, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC3p=PC3
+; P2C=3, PC2p=4, Xp=X+2, Yp=Y, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC3p=PC3
+; P2C=4, PC2p=5, Xp=X+2, Yp=Y, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC3p=PC3.
+
+% ==== Thread 3 ====
+step3(X,Y,MX,MY,A,PC1,PC2,PC,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PCp) :=
+  P3C=0, PC3p=1, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A, PC1p=PC1, PC2p=PC2
+; P3C=1, PC3p=2, Xp=X, Yp=Y+2, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC2p=PC2
+; P3C=2, PC3p=3, Xp=X, Yp=Y+2, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC2p=PC2
+; P3C=3, PC3p=4, Xp=X, Yp=Y+2, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC2p=PC2
+; P3C=4, PC3p=5, Xp=X, Yp=Y+2, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC2p=PC2
+; P3C=5, PC3p=6, Xp=X, Yp=Y+2, MXp=MX, MYp=MY, Ap=A, PC1p=PC1, PC2p=PC2
+; P3C=6, PC3p=7, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A, PC1p=PC1, PC2p=PC2.
+
+error(X,_,_,_,_,PC1,_,_) := PC1=19, X=27. % should give a proof
+%error(X,_,_,_,_,PC1,_,_) := PC1=19, X=17. % should give a counterexample
+
+% == (INIT) ==
+r1(X,Y,MX,MY,A,PC1,PC2,PC3) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r2(X,Y,MX,MY,A,PC1,PC2,PC3) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+r3(X,Y,MX,MY,A,PC1,PC2,PC3) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+
+% == (STEP) ==
+r1(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r1(X,Y,MX,MY,A,PC1,PC2,PC3), step1(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r2(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r2(X,Y,MX,MY,A,PC1,PC2,PC3), step2(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r3(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r3(X,Y,MX,MY,A,PC1,PC2,PC3), step3(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+
+% == (INTERFERENCE) ==
+r1(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r1(X,Y,MX,MY,A,PC1,PC2,PC3), r2(X,Y,MX,MY,A,PC1,PC2,PC3), step2(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r1(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r1(X,Y,MX,MY,A,PC1,PC2,PC3), r3(X,Y,MX,MY,A,PC1,PC2,PC3), step3(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r2(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r2(X,Y,MX,MY,A,PC1,PC2,PC3), r1(X,Y,MX,MY,A,PC1,PC2,PC3), step1(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r2(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r2(X,Y,MX,MY,A,PC1,PC2,PC3), r3(X,Y,MX,MY,A,PC1,PC2,PC3), step3(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r3(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r3(X,Y,MX,MY,A,PC1,PC2,PC3), r1(X,Y,MX,MY,A,PC1,PC2,PC3), step1(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+r3(Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p) :- r3(X,Y,MX,MY,A,PC1,PC2,PC3), r2(X,Y,MX,MY,A,PC1,PC2,PC3), step2(X,Y,MX,MY,A,PC1,PC2,PC3,Xp,Yp,MXp,MYp,Ap,PC1p,PC2p,PC3p).
+
+% == (ERROR) ==
+false :- r1(X,_,_,_,_,PC1,_,_), error(X,_,_,_,_,PC1,_,_).
+
+query_naming(r1(x,y,mx,my,a,pc1,pc2,pc3)).
+query_naming(r2(x,y,mx,my,a,pc1,pc2,pc3)).
+query_naming(r3(x,y,mx,my,a,pc1,pc2,pc3)).
+
+% -exp-eval -no-extra-insert-pred -nomcc: 'program is correct', 7m4s (7 iterations)

@@ -1,0 +1,217 @@
+init(X,MX,A,PC1,PC2,PC3) := X=0, MX=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+step1(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X+1, MXp=MX
+; PC=2,  PCp=3,  Xp=X+1, MXp=MX
+; PC=3,  PCp=4,  Xp=X+1, MXp=MX
+; PC=4,  PCp=5,  Xp=X+1, MXp=MX
+; PC=5,  PCp=6,  Xp=X+1, MXp=MX
+; PC=6,  PCp=7,  Xp=X+1, MXp=MX
+; PC=7,  PCp=8,  Xp=X+1, MXp=MX
+; PC=8,  PCp=9,  Xp=X+1, MXp=MX
+; PC=9,  PCp=10, Xp=X+1, MXp=MX
+; PC=10, PCp=11, Xp=X+1, MXp=MX
+; PC=11, PCp=12, Xp=X,   MXp=0.
+
+rm1(PC,PCp) :=
+  PC=0 , PCp=1.
+lm1(PC,PCp) :=
+  PC=11, PCp=12.
+nm1(PC,PCp) :=
+  PCp=11, PC=10
+; PCp=10, PC=9
+; PCp=9,  PC=8
+; PCp=8,  PC=7
+; PCp=7,  PC=6
+; PCp=6,  PC=5
+; PCp=5,  PC=4
+; PCp=4,  PC=3
+; PCp=3,  PC=2
+; PCp=2,  PC=1.
+
+ph1(PC,P) :=
+  PC=11, P=<0
+; PC=10, P=<0
+; PC=9, P=<0
+; PC=8, P=<0
+; PC=7, P=<0
+; PC=6, P=<0
+; PC=5, P=<0
+; PC=4, P=<0
+; PC=3, P=<0
+; PC=2, P=<0
+; PC=12, P=<0
+; PC=1, P>=1
+; PC=0, P>=1.
+
+% ==== Thread 2 ====
+step2(X,MX,PC,Xp,MXp,PCp) :=
+  PC=0,  PCp=1,  Xp=X,   MX=0, MXp=1
+; PC=1,  PCp=2,  Xp=X-1, MXp=MX
+; PC=2,  PCp=3,  Xp=X-1, MXp=MX
+; PC=3,  PCp=4,  Xp=X-1, MXp=MX
+; PC=4,  PCp=5,  Xp=X-1, MXp=MX
+; PC=5,  PCp=6,  Xp=X-1, MXp=MX
+; PC=6,  PCp=7,  Xp=X-1, MXp=MX
+; PC=7,  PCp=8,  Xp=X-1, MXp=MX
+; PC=8,  PCp=9,  Xp=X-1, MXp=MX
+; PC=9,  PCp=10, Xp=X-1, MXp=MX
+; PC=10, PCp=11, Xp=X-1, MXp=MX
+; PC=11, PCp=12, Xp=X,   MXp=0.
+
+rm2(PC,PCp) :=
+  PC=0 , PCp=1.
+lm2(PC,PCp) :=
+  PC=11, PCp=12.
+nm2(PC,PCp) :=
+  PCp=11, PC=10
+; PCp=10, PC=9
+; PCp=9,  PC=8
+; PCp=8,  PC=7
+; PCp=7,  PC=6
+; PCp=6,  PC=5
+; PCp=5,  PC=4
+; PCp=4,  PC=3
+; PCp=3,  PC=2
+; PCp=2,  PC=1.
+
+ph2(PC,P) :=
+  PC=11, P=<0
+; PC=10, P=<0
+; PC=9, P=<0
+; PC=8, P=<0
+; PC=7, P=<0
+; PC=6, P=<0
+; PC=5, P=<0
+; PC=4, P=<0
+; PC=3, P=<0
+; PC=2, P=<0
+; PC=12, P=<0
+; PC=1, P>=1
+; PC=0, P>=1.
+
+% ==== Thread 3 ====
+step3(X,MX,A,PC,Xp,MXp,Ap,PCp) :=
+  PC=0, PCp=1, Ap=X, Xp=X, MXp=MX.
+
+nm3(PC,PCp) :=
+  PC=0, PCp=1.
+
+ph3(PC,P) :=
+  PC=0, P=<0
+; PC=1, P>=1.
+
+% (init)
+r1(X,MX,PC1) :- init(X,MX,A,PC1,PC2,PC3).
+r2(X,MX,PC2) :- init(X,MX,A,PC1,PC2,PC3).
+r3(X,MX,A,PC3) :- init(X,MX,A,PC1,PC2,PC3).
+
+% (reach)
+r1(Xp,MXp,PCp) :- r1(X,MX,PC), step1(X,MX,PC,Xp,MXp,PCp).
+r2(Xp,MXp,PCp) :- r2(X,MX,PC), step2(X,MX,PC,Xp,MXp,PCp).
+r3(Xp,MXp,Ap,PCp)    :- r3(X,MX,A,PC), step3(X,MX,A,PC,Xp,MXp,Ap,PCp).
+
+% (right)
+r_1(PC) :- r1(_,_,PC), ph1(PC,1), init(_,_,_,PC1,_,_), PC>=PC1+1.
+r_2(PC) :- r2(_,_,PC), ph2(PC,1), init(_,_,_,_,PC2,_), PC>=PC2+1.
+r_3(PC) :- r3(_,_,_,PC), ph3(PC,1), init(_,_,_,_,_,PC3), PC>=PC3+1.
+
+%% % (left)
+%% l_1(PC) :- r1(_,_,_,_,_,PC), \+ (rm1(PC,_) ; nm1(PC,_) ), ph1(PC,0)
+%%   ,init(_,_,_,_,_,PC1,_,_), PC>=PC1+1.
+
+%% l_2(PC) :- r2(X,MX,PC), \+ (rm2(PC,_) ; nm2(PC,_)), ph2(PC,0)
+%%   ,init(_,_,_,_,_,_,PC2,_), PC>=PC2+1.
+
+%% l_3(PC) :- r3(X,MX,PC), \+ (rm3(PC,_) ; nm3(PC,_)), ph3(PC,0)
+%%   ,init(_,_,_,_,_,_,_,PC3), PC>=PC3+1.
+
+% (non-mover)
+n_1(PC) :- r1(X,MX,PC), init(_,_,_,PC,_,_).
+n_1(PC) :- r1(X,MX,PC), (rm1(PC,_) ; nm1(PC,_)), ph1(PC,0).
+n_2(PC) :- r2(X,MX,PC), init(_,_,_,_,PC,_).
+n_2(PC) :- r2(X,MX,PC), (rm2(PC,_) ; nm2(PC,_)), ph2(PC,0).
+n_3(PC) :- r3(X,MX,A,PC), init(_,_,_,_,_,PC).
+n_3(PC) :- r3(X,MX,A,PC), (rm3(PC,_) ; nm3(PC,_)), ph3(PC,0).
+
+query_naming(r_1(pc)).
+query_naming(n_1(pc)).
+query_naming(r_2(pc)).
+query_naming(n_2(pc)).
+query_naming(r_3(pc)).
+query_naming(n_3(pc)).
+
+% == Seed abstract domain, alternative 2: predicates. ==
+preds(r1, [X,MX,PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(r_1, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(n_1, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(r2, [X,MX,PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(r_2, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(n_2, [PC],
+     [PC=0,PC=1,PC=2,PC=3,PC=4,PC=5,PC=6,PC=7,PC=8,PC=9,PC=10,
+      PC=11,PC=12]).
+preds(r3, [X,MX,A,PC],
+     [PC=0,PC=1]).
+preds(r_3, [PC],
+     [PC=0,PC=1]).
+preds(n_3, [PC],
+     [PC=0,PC=1]).
+
+% Clauses to print r_1, l_1, n_1
+q(_) :- r_1(_).
+q(_) :- n_1(_).
+q(_) :- r_2(_).
+q(_) :- n_2(_).
+q(_) :- r_3(_).
+q(_) :- n_3(_).
+
+% Check that we're getting the results from '3thread_50_monotransactions.qarmc':
+% 0.159s
+%% r_1:
+%% pc=1
+%% l_1:
+%% pc=11
+%% n_1:
+%% pc=10
+%% pc=9
+%% pc=8
+%% pc=7
+%% pc=6
+%% pc=5
+%% pc=4
+%% pc=3
+%% pc=2
+%% pc=0
+
+%% r_2:
+%% pc=1
+%% l_1:
+%% pc=11
+%% n_2:
+%% pc=10
+%% pc=9
+%% pc=8
+%% pc=7
+%% pc=6
+%% pc=5
+%% pc=4
+%% pc=3
+%% pc=2
+%% pc=0
+
+%% r_3:
+%% pc=1
+%% n_3:
+%% pc=0

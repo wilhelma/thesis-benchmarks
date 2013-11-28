@@ -1,0 +1,121 @@
+init(X,Y,MX,MY,A,PC1,PC2,PC3) := X=2, Y=2, MX=0, MY=0, A=0, PC1=0, PC2=0, PC3=0.
+
+% ==== Thread 1 ====
+%n1(PC) := PC=0 ; PC>=4, PC=<7 ; PC=10 ; PC>=12, PC=<15 ; PC=19.
+%m1(PC) := PC>=1, PC=<3 ; PC>=8, PC=<9 ; PC=11 ; PC>=16, PC=<18.
+
+step1_out(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp) := % target is in n1
+  PC=3, PCp=4, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=4, PCp=5, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=5, PCp=6, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=6, PCp=7, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A  
+; PC=9, PCp=10, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=A+1
+; PC=11, PCp=12, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=12, PCp=13, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=13, PCp=14, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=14, PCp=15, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=18, PCp=19, Xp=X, Yp=Y, MXp=0, MYp=MY, Ap=A.
+step1_in(X,Y,MX,MY,A,PC,Xp,Yp,MXp,MYp,Ap,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY, Ap=A
+; PC=1, PCp=2, Xp=X, Yp=Y, MXp=MX, MYp=MY, Ap=X
+; PC=2, PCp=3, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A
+; PC=7, PCp=8, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=8, PCp=9, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A
+; PC=10, PCp=11, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1, Ap=A
+; PC=15, PCp=16, Xp=X, Yp=Y+A, MXp=MX, MYp=MY, Ap=A
+; PC=16, PCp=17, Xp=X, Yp=Y, MXp=MX, MYp=0, Ap=A
+; PC=17, PCp=18, Xp=X+X+A, Yp=Y, MXp=MX, MYp=MY, Ap=A.
+
+% ==== Thread 2 ====
+%n2(PC) := PC=0 ; PC=7.
+%m2(PC) := PC>=1, PC=<6.
+
+step2_out(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=6, PCp=7, Xp=X, Yp=Y, MXp=0, MYp=MY.
+step2_in(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MX=0, MXp=1, MYp=MY
+; PC=1, PCp=2, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=2, PCp=3, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=3, PCp=4, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=4, PCp=5, Xp=X+2, Yp=Y, MXp=MX, MYp=MY
+; PC=5, PCp=6, Xp=X+2, Yp=Y, MXp=MX, MYp=MY.
+
+% ==== Thread 3 ====
+%n3(PC) := PC=0 ; PC=7 ; PC=8.
+%m3(PC) := PC>=1, PC=<6.
+
+step3_out(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=6, PCp=7, Xp=X, Yp=Y, MXp=MX, MYp=0
+; PC=7, PCp=8, Xp=X, Yp=2, MXp=MX, MYp=MY.
+step3_in(X,Y,MX,MY,PC,Xp,Yp,MXp,MYp,PCp) :=
+  PC=0, PCp=1, Xp=X, Yp=Y, MXp=MX, MY=0, MYp=1
+; PC=1, PCp=2, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=2, PCp=3, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=3, PCp=4, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=4, PCp=5, Xp=X, Yp=Y+2, MXp=MX, MYp=MY
+; PC=5, PCp=6, Xp=X, Yp=Y+2, MXp=MX, MYp=MY.
+
+error(X,_,_,_,_,PC1,_,_) := PC1=19, X=27. % should give a proof
+%error(X,_,_,_,_,PC1,_,_) := PC1=19, X=17. % should give a counterexample
+
+% == (INIT) ==
+r(X,Y,MX,MY,A,PC1,PC2,PC3) :- init(X,Y,MX,MY,A,PC1,PC2,PC3).
+% == (TM-Start) ==
+p1(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p) :- r(X,Y,MX,MY,A,PC1,_,_), step1_in(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p).
+p2(X,Y,MX,MY,  PC2,Xp,Yp,MXp,MYp,   PC2p) :- r(X,Y,MX,MY,A,_,PC2,_), step2_in(X,Y,MX,MY,  PC2,Xp,Yp,MXp,MYp,   PC2p).
+p3(X,Y,MX,MY,  PC3,Xp,Yp,MXp,MYp,   PC3p) :- r(X,Y,MX,MY,A,_,_,PC3), step3_in(X,Y,MX,MY,  PC3,Xp,Yp,MXp,MYp,   PC3p).
+% == (TM-Step) ==
+p1(X,Y,MX,MY,A,PC1,Xpp,Ypp,MXpp,MYpp,App,PC1pp) :- p1(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p), step1_in(Xp,Yp,MXp,MYp,Ap,PC1p,Xpp,Ypp,MXpp,MYpp,App,PC1pp).
+p2(X,Y,MX,MY,  PC2,Xpp,Ypp,MXpp,MYpp,    PC2pp) :- p2(X,Y,MX,MY,  PC2,Xp,Yp,MXp,MYp,   PC2p), step2_in(Xp,Yp,MXp,MYp,   PC2p,Xpp,Ypp,MXpp,MYpp,    PC2pp).
+p3(X,Y,MX,MY,  PC3,Xpp,Ypp,MXpp,MYpp,    PC3pp) :- p3(X,Y,MX,MY,  PC3,Xp,Yp,MXp,MYp,   PC3p), step3_in(Xp,Yp,MXp,MYp,   PC3p,Xpp,Ypp,MXpp,MYpp,    PC3pp).
+% == (TM-Sum) ==
+s1(X,Y,MX,MY,A,PC1,Xpp,Ypp,MXpp,MYpp,App,PC1pp) :- p1(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p), step1_out(Xp,Yp,MXp,MYp,Ap,PC1p,Xpp,Ypp,MXpp,MYpp,App,PC1pp).
+s2(X,Y,MX,MY,  PC2,Xpp,Ypp,MXpp,MYpp,    PC2pp) :- p2(X,Y,MX,MY,  PC2,Xp,Yp,MXp,MYp,   PC2p), step2_out(Xp,Yp,MXp,MYp,   PC2p,Xpp,Ypp,MXpp,MYpp,    PC2pp).
+s3(X,Y,MX,MY,  PC3,Xpp,Ypp,MXpp,MYpp,    PC3pp) :- p3(X,Y,MX,MY,  PC3,Xp,Yp,MXp,MYp,   PC3p), step3_out(Xp,Yp,MXp,MYp,   PC3p,Xpp,Ypp,MXpp,MYpp,    PC3pp).
+% == (Step-Single) ==
+r(Xp,Yp,MXp,MYp,Ap,PC1p,PC2, PC3)  :- r(X,Y,MX,MY,A,PC1,PC2,PC3), step1_out(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p).
+r(Xp,Yp,MXp,MYp,A, PC1, PC2p,PC3)  :- r(X,Y,MX,MY,A,PC1,PC2,PC3), step2_out(X,Y,MX,MY,  PC2,Xp,Yp,MXp,MYp,   PC2p).
+r(Xp,Yp,MXp,MYp,A, PC1, PC2, PC3p) :- r(X,Y,MX,MY,A,PC1,PC2,PC3), step3_out(X,Y,MX,MY,  PC3,Xp,Yp,MXp,MYp,   PC3p).
+% == (Step-Sum) ==
+r(Xp,Yp,MXp,MYp,Ap,PC1p,PC2, PC3) :- r(X,Y,MX,MY,A,PC1,PC2,PC3), s1(X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p).
+r(Xp,Yp,MXp,MYp,A, PC1, PC2p,PC3) :- r(X,Y,MX,MY,A,PC1,PC2,PC3), s2(X,Y,MX,MY,  PC2,Xp,Yp,MXp,MYp,   PC2p).
+r(Xp,Yp,MXp,MYp,A, PC1, PC2, PC3p):- r(X,Y,MX,MY,A,PC1,PC2,PC3), s3(X,Y,MX,MY,  PC3,Xp,Yp,MXp,MYp,   PC3p).
+% == (Error) ==
+false :- r(X,_,_,_,_,PC1,_,_),  error(X,_,_,_,_,PC1,_,_).
+
+query_naming(r(x,y,mx,my,a,pc1,pc2,pc3)).
+query_naming(p1(x,y,mx,my,a,pc1,xp,yp,mxp,myp,ap,pc1p)).
+query_naming(p2(x,y,mx,my,pc2,xp,yp,mxp,myp,pc2p)).
+query_naming(p3(x,y,mx,my,pc3,xp,yp,mxp,myp,pc3p)).
+
+preds(r, [X,Y,MX,MY,A,PC1,PC2,PC3],
+     [
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,PC1=8,PC1=9,PC1=10,
+      PC1=11,PC1=12,PC1=13,PC1=14,PC1=15,PC1=16,PC1=17,PC1=18,PC1=19
+     ]).
+
+preds(p1, [X,Y,MX,MY,A,PC1,Xp,Yp,MXp,MYp,Ap,PC1p],
+     [
+      MX=<0,MX>=1,MY=<0,MY>=1,MXp=<0,MXp>=1,MYp=<0,MYp>=1,
+      PC1=0,PC1=1,PC1=2,PC1=3,PC1=4,PC1=5,PC1=6,PC1=7,PC1=8,PC1=9,PC1=10,
+      PC1=11,PC1=12,PC1=13,PC1=14,PC1=15,PC1=16,PC1=17,PC1=18,PC1=19,
+      PC1p=0,PC1p=1,PC1p=2,PC1p=3,PC1p=4,PC1p=5,PC1p=6,PC1p=7,PC1p=8,PC1p=9,PC1p=10,
+      PC1p=11,PC1p=12,PC1p=13,PC1p=14,PC1p=15,PC1p=16,PC1p=17,PC1p=18,PC1p=19
+     ]).
+
+preds(p2, [X,Y,MX,MY,PC2,Xp,Yp,MXp,MYp,PC2p],
+     [
+      MX=<0,MX>=1,MY=<0,MY>=1,MXp=<0,MXp>=1,MYp=<0,MYp>=1,
+      PC2=0,PC2=7,
+      PC2p=0,PC2p=1,PC2p=2,PC2p=3,PC2p=4,PC2p=5,PC2p=6,PC2p=7
+     ]).
+
+preds(p3, [X,Y,MX,MY,PC3,Xp,Yp,MXp,MYp,PC3p],
+     [
+      MX=<0,MX>=1,MY=<0,MY>=1,MXp=<0,MXp>=1,MYp=<0,MYp>=1,
+      PC3=0,
+      PC3p=0,PC3p=1,PC3p=2,PC3p=3,PC3p=4,PC3p=5,PC3p=6,PC3p=7,PC3p=8
+     ]).
+
+
+% correct result (exp-eval):       20.9s  (9 iter.)
